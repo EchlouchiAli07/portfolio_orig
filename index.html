@@ -695,12 +695,7 @@
             margin-top: 100px;
         }
 
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 40px;
-        }
+        
 
         .social-links {
             display: flex;
@@ -730,10 +725,8 @@
 
         .copyright {
             text-align: center;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            padding-top: 30px;
-            border-top: 1px solid var(--dark-border);
+            
+            margin-left: 1150px;
         }
 
         /* Animations */
@@ -839,11 +832,7 @@
                 grid-template-columns: 1fr;
             }
             
-            .footer-content {
-                flex-direction: column;
-                gap: 30px;
-                text-align: center;
-            }
+           
             
             .certification-item {
                 flex-direction: column;
@@ -1658,22 +1647,11 @@
 
     <!-- Footer -->
     <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="logo" style="font-size: 2rem;">Ali<span>.</span>Echlouchi</div>
-                <div class="social-links">
-                    <a href="https://www.linkedin.com/in/echlouchi-ali/" target="_blank">
-                        <i class="fab fa-linkedin"></i>
-                    </a>
-                    <a href="https://github.com/EchlouchiAli07" target="_blank">
-                        <i class="fab fa-github"></i>
-                    </a>
-                   
-                </div>
+        
             </div>
             <p class="copyright">
-                © 2025 Ali Echlouchi. Tous droits réservés.<br>
-                <small style="color: #64748b; font-size: 0.8rem;">Étudiant en Master IS2IA - ESISA Fès</small>
+                Made with
+❤️<br>
             </p>
         </div>
     </footer>
@@ -1835,46 +1813,116 @@
             });
         }
 
-        // Contact form submission
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form values
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const subject = document.getElementById('subject').value;
-            const message = document.getElementById('message').value;
-            
-            // Validate form
-            if (!name || !email || !subject || !message) {
-                alert('Veuillez remplir tous les champs obligatoires.');
-                return;
-            }
-            
-            // In a real application, you would send this data to a server
-            // For now, we'll show a success message
-            const submitBtn = this.querySelector('button');
-            const originalText = submitBtn.innerHTML;
-            
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
-            submitBtn.disabled = true;
-            
-            // Simulate API call
-            setTimeout(() => {
-                submitBtn.innerHTML = '<i class="fas fa-check"></i> Message envoyé !';
-                submitBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-                
-                setTimeout(() => {
-                    alert(`Merci ${name} ! Votre message a été envoyé avec succès. Je vous répondrai à ${email} dans les plus brefs délais.`);
-                    
-                    // Reset form and button
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.style.background = 'linear-gradient(135deg, var(--primary), var(--primary-dark))';
-                    submitBtn.disabled = false;
-                    this.reset();
-                }, 500);
-            }, 1500);
+        // ==================================================
+// NOUVELLE FONCTION POUR ENVOYER AU BACKEND
+// ==================================================
+
+// Contact form submission - VERSION AVEC BACKEND
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    // 1. Récupérer les valeurs
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const subject = document.getElementById('subject').value.trim();
+    const message = document.getElementById('message').value.trim();
+    
+    // 2. Validation
+    if (!name || !email || !subject || !message) {
+        alert('❌ Veuillez remplir tous les champs obligatoires.');
+        return;
+    }
+    
+    // Validation email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        alert('❌ Veuillez entrer une adresse email valide.');
+        return;
+    }
+    
+    // 3. Préparer le bouton
+    const submitBtn = this.querySelector('button');
+    const originalText = submitBtn.innerHTML;
+    const originalBackground = submitBtn.style.background;
+    
+    // 4. Afficher chargement
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
+    submitBtn.disabled = true;
+    
+    try {
+        console.log('📤 Envoi du message au backend...');
+        
+        // 5. Envoyer au backend (localhost:3001)
+        const response = await fetch('http://localhost:3001/api/contact', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: name,
+                email: email,
+                subject: subject,
+                message: message
+            })
         });
+        
+        // 6. Lire la réponse
+        const data = await response.json();
+        
+        // 7. Vérifier le succès
+        if (data.success) {
+            // ✅ SUCCÈS
+            submitBtn.innerHTML = '<i class="fas fa-check"></i> Message envoyé !';
+            submitBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+            
+            // Message de succès
+            setTimeout(() => {
+                alert(`✅ MERCI ${name.toUpperCase()} !\n\nVotre message a été envoyé avec succès.\n\n📧 Un email de confirmation a été envoyé à:\n${email}\n\n⏳ Je vous répondrai dans les 24-48 heures.\n\nCordialement,\nAli Echlouchi`);
+                
+                // Réinitialiser
+                this.reset();
+                submitBtn.innerHTML = originalText;
+                submitBtn.style.background = originalBackground;
+                submitBtn.disabled = false;
+                
+            }, 1000);
+            
+        } else {
+            // ❌ Erreur du backend
+            throw new Error(data.message || 'Erreur lors de l\'envoi');
+        }
+        
+    } catch (error) {
+        // 8. Gérer les erreurs
+        console.error('❌ Erreur:', error);
+        
+        // Message d'erreur adapté
+        let errorMessage = `❌ ERREUR\n\n${error.message}\n\n`;
+        
+        if (error.message.includes('Failed to fetch')) {
+            errorMessage += 'Le serveur backend ne répond pas.\n';
+            errorMessage += 'Vérifiez que le serveur est démarré:\n';
+            errorMessage += '1. Ouvrez le terminal VS Code\n';
+            errorMessage += '2. Tapez: node server.js\n';
+            errorMessage += '3. Attendez que le serveur démarre\n';
+            errorMessage += '4. Redémarrez cette page\n\n';
+            errorMessage += 'Ou contactez-moi directement:\n';
+            errorMessage += '📧 chlouchiali3@gmail.com\n';
+            errorMessage += '📱 +212 6 44 11 45 28';
+        } else if (error.message.includes('Network')) {
+            errorMessage += 'Problème de connexion réseau.\n';
+            errorMessage += 'Vérifiez votre connexion internet.';
+        } else {
+            errorMessage += 'Veuillez réessayer dans quelques minutes.';
+        }
+        
+        alert(errorMessage);
+        
+        // Réinitialiser le bouton
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    }
+});
 
         // Typing effect for hero section
         const typingText = document.querySelector('.typing');
