@@ -1,9 +1,11 @@
-# Node modules (si vous ajoutez npm plus tard)
+# Node modules
 node_modules/
 package-lock.json
 
-# Backend (plus nécessaire)
-portfolio-backend/
+# Backend dependencies
+portfolio-backend/node_modules/
+portfolio-backend/package-lock.json
+portfolio-backend/.env
 
 # OS Files
 .DS_Store

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- SEO Meta Tags -->
-    <title>Ali Echlouchi - Portfolio </title>
+    <title>Ali Echlouchi - Portfolio | Étudiant Master IS2IA</title>
     <meta name="description"
         content="Portfolio d'Ali Echlouchi, étudiant en Master IS2IA (Ingénierie des Systèmes d'Information et Intelligence Artificielle). Développeur Full-Stack passionné par l'IA, la Data Science et le développement web.">
     <meta name="keywords"
@@ -59,7 +59,7 @@
             <nav class="glass">
                 <div class="logo">
                     <i class="fas fa-code"></i>
-                    Echlouchi
+                    A.Echlouchi
                 </div>
                 <div class="nav-links">
                     <a href="#home" class="active">Accueil</a>
@@ -770,7 +770,8 @@
                             <span class="timeline-date">2022 — 2025</span>
                             <h3>Licence en Ingénierie Logicielle</h3>
                             <h4>École Supérieure d'Ingénierie en Sciences Appliquées, Fès</h4>
-                            <p>Bac+3 en Ingénierie Logicielle </p>
+                            <p>Bac+3 en Ingénierie Logicielle — Développement full-stack, bases de données, et génie
+                                logiciel</p>
                             <div class="timeline-tags">
                                 <span class="tag">Java</span>
                                 <span class="tag">Python</span>
@@ -868,20 +869,19 @@
                         <form id="contactForm" class="modern-form">
                             <div class="form-group">
                                 <label for="name"><i class="fas fa-user"></i> Nom complet</label>
-                                <input type="text" id="name" name="name" placeholder="Votre nom" required>
+                                <input type="text" id="name" placeholder="Votre nom" required>
                             </div>
                             <div class="form-group">
                                 <label for="email"><i class="fas fa-at"></i> Email</label>
-                                <input type="email" id="email" name="email" placeholder="votre@email.com" required>
+                                <input type="email" id="email" placeholder="votre@email.com" required>
                             </div>
                             <div class="form-group">
                                 <label for="subject"><i class="fas fa-tag"></i> Sujet</label>
-                                <input type="text" id="subject" name="subject" placeholder="Objet du message" required>
+                                <input type="text" id="subject" placeholder="Objet du message" required>
                             </div>
                             <div class="form-group">
                                 <label for="message"><i class="fas fa-comment-alt"></i> Message</label>
-                                <textarea id="message" name="message" rows="5" placeholder="Votre message..."
-                                    required></textarea>
+                                <textarea id="message" rows="5" placeholder="Votre message..." required></textarea>
                             </div>
                             <button type="submit" class="btn submit-btn">
                                 <span>Envoyer le message</span>
@@ -918,190 +918,193 @@
     <!-- Custom JavaScript -->
     <script src="script.js"></script>
 
-    <!-- AI Chatbot Logic and Widget Area moved to bottom -->
-    <!-- AI Chatbot (PREMIUM v4.0 - Minimalist Glass) -->
-    <div class="ai-widget-wrapper" style="position:fixed; bottom:30px; right:30px;">
-        <button id="ai_toggle" class="chat-toggle" title="Discuter avec l'IA">
-            <i class="fas fa-robot"></i>
-        </button>
-
-        <div id="ai_window" class="chat-window" style="bottom:80px; right:0; position:absolute;">
-            <div class="chat-header">
-                <div class="chat-header-info">
-                    <i class="fas fa-robot"></i>
-                    <div>
-                        <span>Assistant Ali</span>
-                        <div style="font-size: 0.7rem; color: #10b981; display: flex; align-items: center; gap: 4px;">
-                            <span class="status-dot"></span> En ligne
-                        </div>
-                    </div>
-                </div>
-                <div style="display: flex; gap: 8px;">
-                    <button id="ai_clear" class="clear-chat" title="Effacer"><i class="fas fa-trash-alt"></i></button>
-                    <button id="ai_close" class="close-chat" title="Fermer"><i class="fas fa-times"></i></button>
-                </div>
-            </div>
-
-            <div id="ai_messages" class="chat-messages">
-                <div class="message ai-message">
-                    <div class="message-content">Bonjour ! Je suis l'assistant d'Ali. Je peux vous renseigner sur son
-                        parcours, ses projets ou ses compétences. Que souhaitez-vous savoir ?</div>
-                </div>
-                <div class="chat-suggestions">
-                    <button class="suggestion-btn" onclick="window.handleAiSuggestion('Compétences')">🚀
-                        Compétences</button>
-                    <button class="suggestion-btn" onclick="window.handleAiSuggestion('Projets')">📂 Projets</button>
-                    <button class="suggestion-btn" onclick="window.handleAiSuggestion('Formation')">🎓
-                        Formation</button>
-                    <button class="suggestion-btn" onclick="window.handleAiSuggestion('CV')">📄 Mon CV</button>
-                    <button class="suggestion-btn" onclick="window.handleAiSuggestion('LinkedIn')">🔗 LinkedIn</button>
-                    <button class="suggestion-btn" onclick="window.handleAiSuggestion('Github')">💻 Github</button>
-                    <button class="suggestion-btn" onclick="window.handleAiSuggestion('Contact')">📧 Contact</button>
-                    <button class="suggestion-btn" onclick="window.handleAiSuggestion('Localisation')">📍
-                        Localisation</button>
-                    <button class="suggestion-btn" onclick="window.handleAiSuggestion('Langues')">🗣️ Langues</button>
-                    <button class="suggestion-btn" onclick="window.handleAiSuggestion('Loisirs')">🏐 Loisirs</button>
-                </div>
-                <div id="ai_typing" class="typing-indicator" style="display:none">
-                    <span></span><span></span><span></span>
-                </div>
-            </div>
-
-            <div class="chat-input-area">
-                <input type="text" id="ai_input" placeholder="Posez une question..." autocomplete="off">
-                <button id="ai_send"><i class="fas fa-paper-plane"></i></button>
-            </div>
-        </div>
-    </div>
-
-    <!-- AI LOGIC v4.0 -->
+    <!-- ROBUST CHAT WIDGET LOGIC -->
+    <!-- ROBUST CHAT WIDGET LOGIC -->
     <script>
-        (function () {
-            const els = {
-                toggle: document.getElementById('ai_toggle'),
-                window: document.getElementById('ai_window'),
-                close: document.getElementById('ai_close'),
-                clear: document.getElementById('ai_clear'),
-                input: document.getElementById('ai_input'),
-                send: document.getElementById('ai_send'),
-                messages: document.getElementById('ai_messages'),
-                typing: document.getElementById('ai_typing')
-            };
+        // GLOBAL ERROR HANDLER FOR DEBUGGING
+        window.onerror = function (msg, url, line) {
+            // alert('Erreur JS : ' + msg + '\nLigne : ' + line); // Uncomment if needed for extreme debugging
+            console.error('Global Error:', msg, url, line);
+        };
 
-            if (!els.toggle || !els.window) return;
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM Loaded - Initializing Chat Widget...');
 
-            window.handleAiSuggestion = (text) => {
-                addMsg(text, 'user');
-                askAI(text);
-            };
+            const toggle = document.querySelector('.chat-toggle');
+            const window = document.querySelector('.chat-window');
+            const close = document.querySelector('.close-chat');
+            const chatInput = document.getElementById('chatInput');
 
-            els.toggle.onclick = () => {
-                const isVisible = els.window.style.display === 'flex';
-                els.window.style.display = isVisible ? 'none' : 'flex';
-                els.window.classList.toggle('active', !isVisible);
-                if (!isVisible) setTimeout(() => els.input.focus(), 100);
-            };
+            if (toggle && window) {
+                console.log('Chat Elements Found!');
+                // Force visibility styles via JS to override any broken CSS
+                toggle.style.display = 'flex';
+                toggle.style.opacity = '1';
+                toggle.style.visibility = 'visible';
+                toggle.style.zIndex = '9999999';
 
-            els.close.onclick = () => {
-                els.window.style.display = 'none';
-                els.window.classList.remove('active');
-            };
+                // Force initial state for window
+                window.style.display = 'none';
 
-            els.clear.onclick = () => {
-                const messages = els.messages.querySelectorAll('.message');
-                messages.forEach((m, i) => { if (i > 0) m.remove(); });
-                // Reset scroll
-                els.messages.scrollTop = 0;
-            };
+                // Toggle Logic
+                toggle.onclick = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Toggle Clicked');
+                    // DEBUG ALERT - DELETE ME LATER
+                    // alert('Chat Clicked!'); 
 
-            els.send.onclick = () => {
-                const val = els.input.value.trim();
-                if (val) {
-                    addMsg(val, 'user');
-                    els.input.value = '';
-                    askAI(val);
-                }
-            };
+                    const isHidden = window.style.display === 'none' || window.style.display === '';
 
-            els.input.onkeypress = (e) => { if (e.key === 'Enter') els.send.onclick(); };
-
-            function addMsg(text, sender) {
-                const div = document.createElement('div');
-                div.className = `message ${sender}-message`;
-                div.innerHTML = `<div class="message-content">${text}</div>`;
-                if (els.typing) {
-                    els.messages.insertBefore(div, els.typing);
-                } else {
-                    els.messages.appendChild(div);
-                }
-                els.messages.scrollTo({ top: els.messages.scrollHeight, behavior: 'smooth' });
-            }
-
-            async function askAI(input) {
-                if (els.typing) els.typing.style.display = 'flex';
-                els.messages.scrollTop = els.messages.scrollHeight;
-
-                let reply = "";
-                const low = input.toLowerCase();
-
-                // 10000% ACCURATE SYNC RESPONSES (Fallback if server is slow or for speed)
-                if (low.includes('compétence') || low.includes('sait faire') || low.includes('techno') || low.includes('maitrise')) {
-                    reply = "Ali est un expert polyvalent :<br>• **IA & Data Science** (90%) : ML, Deep Learning, NLP.<br>• **Développement Web** (88%) : MERN Stack, Next.js, NestJS.<br>• **Bases de Données** (85%) : PostgreSQL, MongoDB.<br>• **Programmation** (83%) : Java, Python, C++.";
-                } else if (low.includes('formation') || low.includes('études') || low.includes('master') || low.includes('licence')) {
-                    if (low.includes('licence')) {
-                        reply = "Diplômé d'une **Licence en Ingénierie Logicielle** (2022-2025) à l'ESISA, Fès.";
-                    } else if (low.includes('master') || low.includes('is2ia')) {
-                        reply = "Actuellement en **Master IS2IA** (Ingénierie des Systèmes d'Information et IA) à l'ESISA, Fès (2025-2026).";
+                    if (isHidden) {
+                        window.style.display = 'flex';
+                        window.style.opacity = '1';
+                        window.style.transform = 'scale(1)';
+                        window.style.visibility = 'visible';
+                        window.classList.add('active'); // CRITICAL FIX: Trigger CSS !important
+                        toggle.classList.add('active');
+                        setTimeout(() => chatInput && chatInput.focus(), 100);
                     } else {
-                        reply = "Parcours d'Ali : **Master IS2IA** (En cours), **Licence en Ingénierie Logicielle** (Diplômé) et **Bac PC** (Section Française).";
+                        window.style.display = 'none';
+                        window.classList.remove('active'); // CRITICAL FIX
+                        toggle.classList.remove('active');
                     }
-                } else if (low.includes('projet') || (low.includes('réalisé') && !low.includes('clinique'))) {
-                    reply = "Ali a 4 projets académiques : **Chatbot Éducatif** (MERN), **Étude Transport** (Data ACM), **Système Bancaire** (Flask/Sécurité) et **Virtual Mall 3D** (Three.js).";
-                } else if (low.includes('clinique') || low.includes('expérience') || low.includes('travail')) {
-                    reply = "Son expérience phare : **Développeur Full Stack & IA** sur le projet **Clinique Intelligente** (2024-2025). Il a créé un chatbot médical, géré des ordonnances numériques et la messagerie temps réel.";
-                } else if (low.includes('certification') || low.includes('certif') || low.includes('diplôme')) {
-                    reply = "Certifié 6 fois : **Linux Essentials**, **Ethical Hacker**, **IoT**, **C++ Essentials** (Cisco), **Data Analysis** (IBM) et **Computer Vision** (Azure/Microsoft).";
-                } else if (low.includes('cv') || low.includes('parcours')) {
-                    reply = "Consultez le CV complet de l'expert Ali Echlouchi ici : <a href='cv/CV_Echlouchi_Ali.pdf' target='_blank' style='color: var(--primary); text-decoration: underline;'>📄 Voir le CV PDF</a>";
-                } else if (low.includes('contact') || low.includes('email') || low.includes('mail') || low.includes('écrire') || low.includes('téléphone')) {
-                    reply = "Voici comment me contacter directement :<br>• 📧 Email : <a href='mailto:chlouchiali3@gmail.com' style='color:#00e5ff;'>chlouchiali3@gmail.com</a><br>• 📱 Tél : <a href='tel:+212644114528' style='color:#00e5ff;'>+212 6 44 11 45 28</a><br>• 🔗 LinkedIn : <a href='https://linkedin.com/in/echlouchi-ali/' target='_blank' style='color:#00e5ff;'>In/echlouchi-ali</a><br>• 💻 GitHub : <a href='https://github.com/EchlouchiAli07' target='_blank' style='color:#00e5ff;'>EchlouchiAli07</a>";
-                } else if (low.includes('localisation') || low.includes('où') || low.includes('habite') || low.includes('ville')) {
-                    reply = "Ali est basé à **Fès, Maroc**. Il est mobile pour des opportunités partout dans le monde.";
-                } else if (low.includes('langue') || low.includes('parles-tu') || low.includes('anglais') || low.includes('français') || low.includes('arabe') || low.includes('espagnol')) {
-                    reply = "Ali parle couramment l'**Arabe** (langue maternelle), le **Français** (Niveau Avancé TCF B2) et l'**Anglais** (Niveau Intermédiaire B1/B2). Il a également des **bases en Espagnol**.";
-                } else if (low.includes('loisir') || low.includes('passion') || low.includes('sport') || low.includes('libre') || low.includes('volleyball')) {
-                    reply = "Quand il n'est pas devant ses algorithmes, Ali se passionne pour :<br>• 🏐 **Volleyball** (Compétition & Esprit d'équipe)<br>• 🎮 **Gaming** (Logique & Stratégie)<br>• 📸 **Photographie**<br>• 🌍 **Voyage**.";
-                } else if (low.includes('bonjour') || low.includes('salut') || low.includes('hello')) {
-                    reply = "Bonjour ! Je suis l'assistant d'Ali Echlouchi. Je connais parfaitement son parcours. Une question sur ses projets ou son Master IS2IA ?";
-                } else {
-                    try {
-                        const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-                            ? 'http://localhost:3001'
-                            : 'https://portfolio-ali-backend.onrender.com'; // À mettre à jour après déploiement backend
+                };
 
-                        const res = await fetch(`${API_URL}/api/chat`, {
+                // Close Logic
+                if (close) {
+                    close.onclick = (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        window.style.display = 'none';
+                        window.classList.remove('active');
+                        toggle.classList.remove('active');
+                    };
+                }
+
+                // --- CHAT INTERACTION LOGIC (INLINE) ---
+                const chatMessages = document.getElementById('chatMessages');
+                const sendMessageBtn = document.getElementById('sendMessage');
+                const typingIndicator = document.getElementById('typingIndicator');
+
+                // 1. Suggestion Buttons (Global)
+                window.sendSuggestion = function (text) {
+                    console.log('Suggestion:', text);
+                    addChatBubble(text, 'user');
+                    handleAIResponse(text);
+                };
+
+                // 2. Send Message Logic
+                if (sendMessageBtn && chatInput) {
+                    sendMessageBtn.onclick = () => {
+                        const text = chatInput.value.trim();
+                        if (text) {
+                            addChatBubble(text, 'user');
+                            chatInput.value = '';
+                            handleAIResponse(text);
+                        }
+                    };
+                    chatInput.onkeypress = (e) => {
+                        if (e.key === 'Enter') sendMessageBtn.onclick();
+                    };
+                }
+
+                // 3. UI Helpers
+                function addChatBubble(text, sender) {
+                    const div = document.createElement('div');
+                    div.className = `message ${sender}-message`;
+                    div.innerHTML = `<div class="message-content">${text}</div>`;
+                    if (typingIndicator) chatMessages.insertBefore(div, typingIndicator);
+                    else chatMessages.appendChild(div);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+
+                // 4. Backend Processing
+                async function handleAIResponse(input) {
+                    if (typingIndicator) typingIndicator.style.display = 'flex';
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                    let response = "";
+                    try {
+                        const res = await fetch('http://localhost:3001/api/chat', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ message: input })
                         });
                         if (res.ok) {
                             const data = await res.json();
-                            reply = data.answer;
-                        } else { throw new Error(); }
+                            response = data.answer;
+                        } else { throw new Error('API Error'); }
                     } catch (e) {
-                        reply = "Je n'ai pas la réponse précise, mais je peux vous confirmer qu'Ali est un expert en IA et Dev Full Stack. Contactez-le pour en savoir plus !";
+                        console.warn('Fallback:', e);
+                        const lower = input.toLowerCase();
+                        if (lower.includes('jour') || lower.includes('salut')) response = "Bonjour ! Comment puis-je vous aider ?";
+                        else if (lower.includes('compétence')) response = "Je maîtrise l'IA, la Data Science et le Web Dev !";
+                        else if (lower.includes('projet')) response = "Mes projets sont visibles dans la section 'Portfolio'.";
+                        else if (lower.includes('contact')) response = "Vous pouvez me contacter via le formulaire ci-dessous.";
+                        else if (lower.includes('cv')) response = "Mon CV est téléchargeable en haut de la page.";
+                        else response = "Je ne suis pas connecté à mon cerveau IA, mais Ali est super compétent ! Contactez-le !";
                     }
+                    if (typingIndicator) typingIndicator.style.display = 'none';
+                    addChatBubble(response, 'ai');
                 }
-
-                setTimeout(() => {
-                    if (els.typing) els.typing.style.display = 'none';
-                    addMsg(reply || "Je reste à votre disposition !", 'ai');
-                }, 800);
+            } else {
+                console.error('CHAT ELEMENTS NOT FOUND!', { toggle, window });
+                // Fallback: Try to create button if missing? No, let's just log for now.
             }
-        })();
+        });
     </script>
-    <!-- Toast Container -->
-    <div class="toast-container" id="toast-container"></div>
+    <!-- AI Chat Widget (MOVED HERE FOR Z-INDEX SAFETY) -->
+    <div class="chat-widget-container"
+        style="z-index: 2147483647 !important; pointer-events: auto !important; position: fixed; bottom: 30px; right: 30px;">
+        <button class="chat-toggle" aria-label="Chat with AI"
+            style="pointer-events: auto !important; cursor: pointer !important;">
+            <i class="fas fa-robot"></i>
+            <span class="chat-tooltip">Discuter avec mon IA</span>
+        </button>
+
+        <div class="chat-window">
+            <div class="chat-header">
+                <div class="chat-header-info">
+                    <div class="ai-avatar">
+                        <i class="fas fa-robot"></i>
+                        <span class="status-dot online"></span>
+                    </div>
+                    <div>
+                        <h4>Assistant IA</h4>
+                        <span class="status-text">En ligne</span>
+                    </div>
+                </div>
+                <button class="close-chat"><i class="fas fa-times"></i></button>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <div class="message ai-message">
+                    <div class="message-content">
+                        Bonjour ! Je suis l'assistant virtuel d'Ali. Je peux répondre à vos questions sur son parcours,
+                        ses compétences ou ses projets. Comment puis-je vous aider ?
+                    </div>
+                    <div class="message-time">Maintenant</div>
+                </div>
+
+                <div class="chat-suggestions">
+                    <button class="suggestion-btn"
+                        onclick="sendSuggestion('Quelles sont ses compétences ?')">Compétences</button>
+                    <button class="suggestion-btn" onclick="sendSuggestion('Voir ses projets')">Projets</button>
+                    <button class="suggestion-btn" onclick="sendSuggestion('Comment le contacter ?')">Contact</button>
+                    <button class="suggestion-btn" onclick="sendSuggestion('Télécharger le CV')">CV</button>
+                </div>
+            </div>
+
+            <div class="typing-indicator" id="typingIndicator">
+                <span></span><span></span><span></span>
+            </div>
+
+            <div class="chat-input-area">
+                <input type="text" id="chatInput" placeholder="Posez une question..." autocomplete="off">
+                <button id="sendMessage" aria-label="Send message"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

@@ -1,12 +1,13 @@
 // ============================================
 // BACKEND PORTFOLIO - ALI ECHLOUCHI
-// Version simple pour débutant
+// Version 2.0 - Avec Intelligence Artificielle (NLP)
 // ============================================
 
 // 1. IMPORTER LES OUTILS NÉCESSAIRES
 const express = require('express');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
+const { NlpManager } = require('node-nlp'); // Import NLP
 require('dotenv').config();
 
 // 2. CRÉER L'APPLICATION EXPRESS
@@ -16,10 +17,177 @@ const app = express();
 app.use(cors()); // Permet au frontend de communiquer
 app.use(express.json()); // Comprend le JSON
 
-// 4. CONFIGURER L'ENVOI D'EMAILS
-console.log('📧 Configuration email en cours...');
-console.log('Email:', process.env.GMAIL_USER);
+// ============================================
+// 4. CONFIGURER L'INTELLIGENCE ARTIFICIELLE (NLP)
+// ============================================
+console.log('🤖 Initialisation de l\'IA...');
+const manager = new NlpManager({ languages: ['fr'], forceNER: true });
 
+// Fonction pour entraîner l'IA
+async function trainAI() {
+  console.log('🧠 Entraînement du modèle IA en cours...');
+
+  // --- INTENTS (Ce que l'utilisateur veut dire) ---
+
+  // Salutations
+  manager.addDocument('fr', 'bonjour', 'greetings.hello');
+  manager.addDocument('fr', 'salut', 'greetings.hello');
+  manager.addDocument('fr', 'hello', 'greetings.hello');
+  manager.addDocument('fr', 'bonsoir', 'greetings.hello');
+
+  manager.addDocument('fr', 'au revoir', 'greetings.bye');
+
+  // Compétences
+  manager.addDocument('fr', 'quelles sont tes compétences', 'skills.list');
+  manager.addDocument('fr', 'que sais tu faire', 'skills.list');
+  manager.addDocument('fr', 'tes technos', 'skills.list');
+  manager.addDocument('fr', 'maitrise', 'skills.list');
+  manager.addDocument('fr', 'programmation', 'skills.prog');
+  manager.addDocument('fr', 'logiciel', 'skills.prog');
+  manager.addDocument('fr', 'web', 'skills.web');
+  manager.addDocument('fr', 'data science', 'skills.data');
+  manager.addDocument('fr', 'intelligence artificielle', 'skills.data');
+  manager.addDocument('fr', 'big data', 'skills.bigdata');
+  manager.addDocument('fr', 'bases de données', 'skills.db');
+  manager.addDocument('fr', 'bi', 'skills.bi');
+  manager.addDocument('fr', 'business intelligence', 'skills.bi');
+  manager.addDocument('fr', 'soft skills', 'skills.soft');
+  manager.addDocument('fr', 'méthodes', 'skills.methods');
+  manager.addDocument('fr', 'outils', 'skills.tools');
+
+  // Projets Académiques
+  manager.addDocument('fr', 'projets académiques', 'projects.acad');
+  manager.addDocument('fr', 'quels sont tes projets', 'projects.acad');
+  manager.addDocument('fr', 'chatbot éducatif', 'projects.edu');
+  manager.addDocument('fr', 'apprentissage', 'projects.edu');
+  manager.addDocument('fr', 'satisfaction transport', 'projects.transport');
+  manager.addDocument('fr', 'acm', 'projects.transport');
+  manager.addDocument('fr', 'bancaire sécurisé', 'projects.bank');
+  manager.addDocument('fr', '2fa', 'projects.bank');
+  manager.addDocument('fr', 'virtual mall 3d', 'projects.3d');
+  manager.addDocument('fr', 'three.js', 'projects.3d');
+
+  // Expérience Professionnelle
+  manager.addDocument('fr', 'expérience professionnelle', 'exp.list');
+  manager.addDocument('fr', 'travail', 'exp.list');
+  manager.addDocument('fr', 'clinique intelligente', 'exp.clinique');
+  manager.addDocument('fr', 'chatbot médical', 'exp.clinique');
+
+  // Certifications
+  manager.addDocument('fr', 'certifications', 'certs.list');
+  manager.addDocument('fr', 'diplômes', 'certs.list');
+  manager.addDocument('fr', 'linux', 'certs.linux');
+  manager.addDocument('fr', 'ethical hacker', 'certs.hacker');
+  manager.addDocument('fr', 'iot', 'certs.iot');
+  manager.addDocument('fr', 'cpp', 'certs.cpp');
+  manager.addDocument('fr', 'ibm python', 'certs.ibm');
+  manager.addDocument('fr', 'azure cv', 'certs.azure');
+  manager.addDocument('fr', 'microsoft', 'certs.azure');
+
+  // Education
+  manager.addDocument('fr', 'formation', 'edu.list');
+  manager.addDocument('fr', 'études', 'edu.list');
+  manager.addDocument('fr', 'master', 'edu.master');
+  manager.addDocument('fr', 'is2ia', 'edu.master');
+  manager.addDocument('fr', 'licence', 'edu.licence');
+  manager.addDocument('fr', 'bac', 'edu.bac');
+
+  // Contact
+  manager.addDocument('fr', 'comment te contacter', 'contact.info');
+  manager.addDocument('fr', 'email', 'contact.email');
+  manager.addDocument('fr', 'téléphone', 'contact.phone');
+  manager.addDocument('fr', 'linkedin', 'contact.linkedin');
+  manager.addDocument('fr', 'github', 'contact.github');
+  manager.addDocument('fr', 'localisation', 'contact.loc');
+  manager.addDocument('fr', 'ville', 'contact.loc');
+
+  // Langues
+  manager.addDocument('fr', 'langues', 'lang.list');
+  manager.addDocument('fr', 'tu parles quoi', 'lang.list');
+
+  // CV
+  manager.addDocument('fr', 'ton cv', 'cv.download');
+  manager.addDocument('fr', 'télécharger cv', 'cv.download');
+
+  // Identité
+  manager.addDocument('fr', 'qui es tu', 'agent.whoami');
+  manager.addDocument('fr', 'présente toi', 'agent.whoami');
+
+  // --- ANSWERS (100% Accuracy) ---
+
+  // Salutations
+  manager.addAnswer('fr', 'greetings.hello', "Bonjour ! Je suis l'assistant d'Ali Echlouchi. Je connais tout son parcours par cœur. Comment puis-je vous aider ? 😊");
+  manager.addAnswer('fr', 'greetings.bye', "Au revoir ! N'hésitez pas à revenir si vous avez d'autres questions sur Ali. 👋");
+
+  // Compétences
+  manager.addAnswer('fr', 'skills.list', "Ali possède une expertise variée : <br>• **Data Science & IA** (90%)<br>• **Développement Web** (88%)<br>• **Bases de Données** (85%)<br>• **Programmation** (83%)<br>• **Business Intelligence** (78%)<br>• **Big Data** (72%).");
+  manager.addAnswer('fr', 'skills.prog', "En programmation (83%), Ali maîtrise **Java, Python, C/C++ et JavaScript**. Il est particulièrement à l'aise avec la logique logicielle.");
+  manager.addAnswer('fr', 'skills.web', "En Web (88%), il utilise la **MERN Stack** (MongoDB, Express, React, Node.js), Next.js, NestJS, PHP et Flask.");
+  manager.addAnswer('fr', 'skills.data', "En Data/IA (90%), Ali est expert en **Machine Learning, Deep Learning et NLP**. Il utilise Python (Pandas, Scikit-learn, TensorFlow) et R.");
+  manager.addAnswer('fr', 'skills.bigdata', "En Big Data (72%), il travaille avec **Spark et Hadoop** pour le traitement de données à grande échelle.");
+  manager.addAnswer('fr', 'skills.db', "Il gère les bases de données (85%) avec **PostgreSQL, MySQL et MongoDB** (Prisma ORM).");
+  manager.addAnswer('fr', 'skills.bi', "En BI (78%), il utilise **Power BI** pour la visualisation et l'aide à la décision.");
+  manager.addAnswer('fr', 'skills.soft', "Ses soft skills incluent le **travail d'équipe, la résolution de problèmes, la communication et l'autonomie**.");
+  manager.addAnswer('fr', 'skills.methods', "Il applique les méthodologies **Agile Scrum, UML, Merise et DevOps (CI/CD)**.");
+  manager.addAnswer('fr', 'skills.tools', "Ses outils quotidiens sont **Git, GitHub, Docker, VS Code, Linux et LaTeX**.");
+
+  // Projets Académiques
+  manager.addAnswer('fr', 'projects.acad', "Ali a 4 projets académiques majeurs : <br>1. **Chatbot Éducatif** (MERN)<br>2. **Étude Transport** (ACM/Data)<br>3. **Système Bancaire** (Sécurité)<br>4. **Virtual Mall 3D** (Three.js).");
+  manager.addAnswer('fr', 'projects.edu', "Le **Chatbot Éducatif** est intégré à une plateforme d'apprentissage (2024-2025). Il utilise la MERN Stack et OpenRouter pour assister les apprenants.");
+  manager.addAnswer('fr', 'projects.transport', "L'**Étude de Satisfaction Transport** (2024-2025) utilise l'ACM avec Python et R pour analyser les données collectées via Google Forms.");
+  manager.addAnswer('fr', 'projects.bank', "Le **Système Bancaire Sécurisé** (2024-2025) est basé sur Flask/Python avec authentification 2FA et protection RBAC.");
+  manager.addAnswer('fr', 'projects.3d', "Le **Virtual Mall 3D** (2024-2025) offre une navigation immersive via Three.js, WebGL et une modélisation sous Blender.");
+
+  // Expérience Professionnelle
+  manager.addAnswer('fr', 'exp.list', "L'expérience clé d'Ali est son rôle de **Développeur Full Stack & IA** sur le projet **Clinique Intelligente** (2024-2025).");
+  manager.addAnswer('fr', 'exp.clinique', "Sur le projet **Clinique Intelligente**, Ali a développé un chatbot médical IA (OpenRouter), la gestion des ordonnances (PDF/QR) et une messagerie temps réel avec Next.js et NestJS.");
+
+  // Certifications
+  manager.addAnswer('fr', 'certs.list', "Ali possède 6 certifications Cisco, IBM et Microsoft : Linux Essentials, Ethical Hacker, IoT, C++, Data Analysis (Python) et Computer Vision (Azure).");
+  manager.addAnswer('fr', 'certs.linux', "Certification **NDG Linux Essentials** délivrée par Cisco Networking Academy.");
+  manager.addAnswer('fr', 'certs.hacker', "Certification **Ethical Hacker** délivrée par Cisco Networking Academy.");
+  manager.addAnswer('fr', 'certs.iot', "Certification **Introduction à l'IoT** délivrée par Cisco Networking Academy.");
+  manager.addAnswer('fr', 'certs.cpp', "Certification **C++ Essentials I** délivrée par Cisco Networking Academy.");
+  manager.addAnswer('fr', 'certs.ibm', "Certification **Data Analysis with Python** délivrée par IBM.");
+  manager.addAnswer('fr', 'certs.azure', "Certification **Computer Vision with Azure** délivrée par Microsoft.");
+
+  // Education
+  manager.addAnswer('fr', 'edu.list', "Formation d'Ali : <br>• **Master IS2IA** (En cours, 2025-2026)<br>• **Licence Ingénierie Logicielle** (2022-2025)<br>• **Bac PC** (2021-2022).");
+  manager.addAnswer('fr', 'edu.master', "Ali est en **Master IS2IA** (Ingénierie des Systèmes d'Information et IA) à l'ESISA, Fès (2025-2026).");
+  manager.addAnswer('fr', 'edu.licence', "Il est diplômé d'une **Licence en Ingénierie Logicielle** (2022-2025) de l'ESISA, Fès.");
+  manager.addAnswer('fr', 'edu.bac', "Il a obtenu son **Baccalauréat Sciences PC** (Section Française) en 2022 à La Résidence 2, Fès.");
+
+  // Contact
+  manager.addAnswer('fr', 'contact.info', "Contactez Ali au **+212 6 44 11 45 28** ou par email à **chlouchiali3@gmail.com**.");
+  manager.addAnswer('fr', 'contact.email', "Son email est : **chlouchiali3@gmail.com** 📧");
+  manager.addAnswer('fr', 'contact.phone', "Son numéro de téléphone : **+212 6 44 11 45 28** 📱");
+  manager.addAnswer('fr', 'contact.linkedin', "Lien LinkedIn : <a href='https://linkedin.com/in/echlouchi-ali/' target='_blank'>Ali Echlouchi</a>");
+  manager.addAnswer('fr', 'contact.github', "Lien GitHub : <a href='https://github.com/EchlouchiAli07' target='_blank'>EchlouchiAli07</a>");
+  manager.addAnswer('fr', 'contact.loc', "Ali est basé à **Fès, Maroc**.");
+
+  // Langues
+  manager.addAnswer('fr', 'lang.list', "Ali parle couramment l'**Arabe** (maternel), le **Français** (TCF B2) et l'**Anglais** (B1/B2).");
+
+  // CV
+  manager.addAnswer('fr', 'cv.download', "Téléchargez son CV complet ici : <a href='cv/CV_Echlouchi_Ali.pdf' target='_blank' style='color:#00e5ff; text-decoration:underline;'>📄 Voir le CV PDF</a>");
+
+  // Identité
+  manager.addAnswer('fr', 'agent.whoami', "Je suis l'assistant personnel d'Ali Echlouchi, futur ingénieur expert en Intelligence Artificielle.");
+  manager.addAnswer('fr', 'agent.bot', "Oui, je suis une IA basée sur le traitement du langage naturel ! 🤖");
+
+  await manager.train();
+  manager.save();
+  console.log('✅ Modèle IA ré-entraîné avec succès !');
+}
+
+// Lancer l'entraînement au démarrage
+trainAI();
+
+
+// ============================================
+// 5. CONFIGURER L'ENVOI D'EMAILS (Nodemailer)
+// ============================================
+console.log('📧 Configuration email en cours...');
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -28,347 +196,74 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-// 5. VÉRIFIER LA CONNEXION EMAIL
-transporter.verify(function(error, success) {
-  if (error) {
-    console.log('❌ Erreur de connexion email:', error.message);
-  } else {
-    console.log('✅ Connexion email réussie!');
+
+// ============================================
+// 6. ROUTES API
+// ============================================
+
+// A. Chatbot AI Route
+app.post('/api/chat', async (req, res) => {
+  try {
+    const { message } = req.body;
+    if (!message) return res.status(400).json({ error: "Message requis" });
+
+    // Traitement du message par l'IA
+    const result = await manager.process('fr', message);
+
+    // Si l'IA a une réponse, on l'envoie. Sinon, réponse par défaut.
+    const answer = result.answer || "Je ne suis pas sûr de comprendre. Pouvez-vous reformuler ? (Je peux parler des compétences, projets, ou contact)";
+
+    // Log pour débug
+    console.log(`🗣️ User: ${message} | 🤖 Bot: ${answer} (Intent: ${result.intent})`);
+
+    res.json({
+      answer: answer,
+      intent: result.intent,
+      score: result.score
+    });
+
+  } catch (error) {
+    console.error('Erreur Chatbot:', error);
+    res.status(500).json({ error: "Erreur interne du chatbot" });
   }
 });
 
-// 6. PAGE D'ACCUEIL DU SERVEUR
-app.get('/', (req, res) => {
-  res.send(`
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <title>Backend Portfolio - Ali Echlouchi</title>
-      <style>
-        * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-          font-family: 'Arial', sans-serif;
-        }
-        
-        body {
-          background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-          color: #f1f5f9;
-          min-height: 100vh;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          padding: 20px;
-        }
-        
-        .container {
-          background: rgba(30, 41, 59, 0.8);
-          backdrop-filter: blur(10px);
-          border: 1px solid rgba(99, 102, 241, 0.3);
-          border-radius: 20px;
-          padding: 40px;
-          max-width: 700px;
-          width: 100%;
-          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-          text-align: center;
-        }
-        
-        h1 {
-          color: #6366f1;
-          font-size: 2.5em;
-          margin-bottom: 20px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 15px;
-        }
-        
-        .status {
-          display: inline-block;
-          background: linear-gradient(135deg, #10b981, #059669);
-          color: white;
-          padding: 8px 20px;
-          border-radius: 20px;
-          font-weight: bold;
-          margin: 15px 0;
-          font-size: 1.1em;
-        }
-        
-        .info-box {
-          background: rgba(99, 102, 241, 0.1);
-          border: 1px solid rgba(99, 102, 241, 0.3);
-          border-radius: 15px;
-          padding: 25px;
-          margin: 25px 0;
-          text-align: left;
-        }
-        
-        .info-item {
-          margin: 10px 0;
-          padding: 10px;
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 10px;
-          display: flex;
-          justify-content: space-between;
-        }
-        
-        .endpoints {
-          margin-top: 30px;
-        }
-        
-        .endpoint {
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 10px;
-          padding: 15px;
-          margin: 10px 0;
-          display: flex;
-          align-items: center;
-          gap: 15px;
-        }
-        
-        .method {
-          background: #6366f1;
-          color: white;
-          padding: 5px 15px;
-          border-radius: 8px;
-          font-weight: bold;
-          min-width: 80px;
-          text-align: center;
-        }
-        
-        .path {
-          color: #94a3b8;
-          font-family: monospace;
-        }
-        
-        .success {
-          color: #10b981;
-          font-weight: bold;
-        }
-        
-        .error {
-          color: #ef4444;
-          font-weight: bold;
-        }
-      </style>
-    </head>
-    <body>
-      <div class="container">
-        <h1>🚀 <span>Backend Portfolio</span></h1>
-        <div class="status">✅ SERVEUR ACTIF</div>
-        
-        <p>Système de gestion des messages de contact pour le portfolio de</p>
-        <h2 style="color: #06b6d4; margin: 15px 0;">Ali Echlouchi</h2>
-        <p>Étudiant en Master IS2IA</p>
-        
-        <div class="info-box">
-          <h3 style="color: #06b6d4; margin-bottom: 15px;">📊 Informations système</h3>
-          
-          <div class="info-item">
-            <span>Port:</span>
-            <span class="success">3001</span>
-          </div>
-          
-          <div class="info-item">
-            <span>Email configuré:</span>
-            <span class="${process.env.GMAIL_USER ? 'success' : 'error'}">
-              ${process.env.GMAIL_USER ? '✅ Oui' : '❌ Non'}
-            </span>
-          </div>
-          
-          <div class="info-item">
-            <span>Email de réception:</span>
-            <span class="success">${process.env.EMAIL_TO || 'Non configuré'}</span>
-          </div>
-          
-          <div class="info-item">
-            <span>Environnement:</span>
-            <span class="success">Développement</span>
-          </div>
-        </div>
-        
-        <div class="endpoints">
-          <h3 style="color: #06b6d4; margin-bottom: 15px;">🔌 Endpoints disponibles</h3>
-          
-          <div class="endpoint">
-            <span class="method">GET</span>
-            <span class="path">/</span>
-            <span>Page d'accueil (cette page)</span>
-          </div>
-          
-          <div class="endpoint">
-            <span class="method">GET</span>
-            <span class="path">/test</span>
-            <span>Tester l'API</span>
-          </div>
-          
-          <div class="endpoint">
-            <span class="method">POST</span>
-            <span class="path">/api/contact</span>
-            <span>Envoyer un message de contact</span>
-          </div>
-        </div>
-        
-        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
-          <p style="color: #94a3b8; font-size: 0.9em;">
-            © 2024 Ali Echlouchi | Backend Portfolio v1.0.0
-          </p>
-        </div>
-      </div>
-    </body>
-    </html>
-  `);
-});
 
-// 7. ROUTE DE TEST SIMPLE
-app.get('/test', (req, res) => {
-  res.json({
-    success: true,
-    message: "🎉 L'API fonctionne parfaitement!",
-    server: "Backend Portfolio Ali Echlouchi",
-    version: "1.0.0",
-    timestamp: new Date().toISOString(),
-    emailConfigured: !!process.env.GMAIL_USER,
-    endpoints: {
-      home: "GET /",
-      test: "GET /test",
-      contact: "POST /api/contact"
-    }
-  });
-});
-
-// 8. ROUTE POUR RECEVOIR LES MESSAGES DE CONTACT
+// B. Route Contact (Email)
 app.post('/api/contact', async (req, res) => {
   try {
-    console.log('📩 Nouvelle demande de contact reçue...');
-    
-    // Récupérer les données du formulaire
     const { name, email, subject, message } = req.body;
-    
-    // Vérifier que tous les champs sont remplis
+
     if (!name || !email || !subject || !message) {
-      return res.status(400).json({
-        success: false,
-        message: '❌ Tous les champs sont obligatoires.'
-      });
+      return res.status(400).json({ success: false, message: 'Tous les champs sont obligatoires.' });
     }
-    
-    console.log(`   👤 De: ${name} <${email}>`);
-    console.log(`   📌 Sujet: ${subject}`);
-    
-    // 1. EMAIL POUR ALI (vous recevez le message)
+
     const emailToAli = {
-      from: `"Portfolio Contact" <${process.env.GMAIL_USER}>`,
-      to: process.env.EMAIL_TO, // chlouchiali3@gmail.com
-      subject: `📧 Nouveau message portfolio: ${subject}`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #6366f1;">Nouveau message de contact</h2>
-          <div style="background: #f8fafc; padding: 20px; border-radius: 10px; margin: 20px 0;">
-            <p><strong>👤 Nom:</strong> ${name}</p>
-            <p><strong>📧 Email:</strong> ${email}</p>
-            <p><strong>📌 Sujet:</strong> ${subject}</p>
-            <p><strong>📝 Message:</strong></p>
-            <div style="background: white; padding: 15px; border-radius: 5px; margin-top: 10px; border: 1px solid #e2e8f0;">
-              ${message.replace(/\n/g, '<br>')}
-            </div>
-          </div>
-          <p style="color: #64748b; font-size: 12px;">
-            Message envoyé depuis le portfolio le ${new Date().toLocaleDateString('fr-FR')} à ${new Date().toLocaleTimeString('fr-FR')}
-          </p>
-        </div>
-      `
+      from: `"Portfolio" <${process.env.GMAIL_USER}>`,
+      to: process.env.EMAIL_TO,
+      subject: `📧 Contact: ${subject}`,
+      text: `De: ${name} (${email})\n\n${message}`
     };
-    
-    // 2. EMAIL DE CONFIRMATION POUR LA PERSONNE
-    const emailConfirmation = {
-      from: `"Ali Echlouchi" <${process.env.GMAIL_USER}>`,
-      to: email,
-      subject: '✅ Confirmation de réception - Ali Echlouchi',
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #6366f1;">Bonjour ${name},</h2>
-          <p>J'ai bien reçu votre message et je vous répondrai dans les plus brefs délais.</p>
-          
-          <div style="background: #f0f9ff; padding: 20px; border-radius: 10px; margin: 20px 0; border: 1px solid #bae6fd;">
-            <h3 style="color: #0369a1; margin-top: 0;">📋 Récapitulatif de votre message</h3>
-            <p><strong>Sujet:</strong> ${subject}</p>
-            <p><strong>Votre message:</strong></p>
-            <div style="background: white; padding: 15px; border-radius: 5px; margin: 10px 0;">
-              ${message.replace(/\n/g, '<br>')}
-            </div>
-          </div>
-          
-          <h3 style="color: #6366f1;">📞 Mes coordonnées</h3>
-          <ul style="list-style: none; padding: 0;">
-            <li style="margin: 10px 0; padding-left: 20px;">📧 <strong>Email:</strong> chlouchiali3@gmail.com</li>
-            <li style="margin: 10px 0; padding-left: 20px;">📱 <strong>Téléphone:</strong> +212 6 44 11 45 28</li>
-            <li style="margin: 10px 0; padding-left: 20px;">💼 <strong>LinkedIn:</strong> <a href="https://linkedin.com/in/echlouchi-ali/" style="color: #6366f1;">echlouchi-ali</a></li>
-            <li style="margin: 10px 0; padding-left: 20px;">🐙 <strong>GitHub:</strong> <a href="https://github.com/EchlouchiAli07" style="color: #6366f1;">EchlouchiAli07</a></li>
-          </ul>
-          
-          <div style="margin-top: 30px; padding: 20px; background: linear-gradient(135deg, #6366f1, #4f46e5); color: white; border-radius: 10px;">
-            <h3 style="margin-top: 0;">👨‍💻 À propos de moi</h3>
-            <p>Je suis Ali Echlouchi, étudiant en Master IS2IA (Ingénierie des Systèmes d'Information et Intelligence Artificielle).</p>
-            <p>Passionné par le développement web, l'analyse de données et l'intelligence artificielle.</p>
-          </div>
-          
-          <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e2e8f0;">
-            <p style="color: #64748b; font-size: 12px;">
-              <em>Ceci est un message automatique de confirmation. Merci de ne pas y répondre.</em><br>
-              Date d'envoi: ${new Date().toLocaleDateString('fr-FR')} à ${new Date().toLocaleTimeString('fr-FR')}
-            </p>
-          </div>
-        </div>
-      `
-    };
-    
-    // ENVOYER LES EMAILS
+
     await transporter.sendMail(emailToAli);
-    console.log('✅ Email envoyé à Ali');
-    
-    await transporter.sendMail(emailConfirmation);
-    console.log('✅ Email de confirmation envoyé');
-    
-    // RÉPONSE DE SUCCÈS
-    res.json({
-      success: true,
-      message: '✅ Message envoyé avec succès ! Un email de confirmation vous a été envoyé.',
-      data: {
-        name,
-        email,
-        subject,
-        sentAt: new Date().toISOString(),
-        status: 'delivered'
-      }
-    });
-    
+    res.json({ success: true, message: 'Message envoyé !' });
+
   } catch (error) {
-    console.error('❌ Erreur:', error.message);
-    res.status(500).json({
-      success: false,
-      message: '❌ Erreur lors de l\'envoi du message. Veuillez réessayer.',
-      error: process.env.NODE_ENV === 'development' ? error.message : undefined
-    });
+    console.error('Erreur Email:', error);
+    res.status(500).json({ success: false, message: 'Erreur lors de l\'envoi.' });
   }
 });
 
-// 9. DÉMARRER LE SERVEUR
+// C. Route Test
+app.get('/', (req, res) => {
+  res.send('<h1>🤖 Backend Portfolio AI - En ligne</h1><p>Endpoint Chatbot: POST /api/chat</p>');
+});
+
+
+// ============================================
+// 7. DÉMARRER LE SERVEUR
+// ============================================
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-  console.log('============================================');
-  console.log('🚀 BACKEND PORTFOLIO - ALI ECHLOUCHI');
-  console.log('============================================');
-  console.log(`📍 Port: ${PORT}`);
-  console.log(`🌐 URL: http://localhost:${PORT}`);
-  console.log(`📧 Email: ${process.env.GMAIL_USER ? '✅ Configuré' : '❌ Non configuré'}`);
-  console.log('============================================');
-  console.log('📋 Endpoints:');
-  console.log(`   GET  http://localhost:${PORT}/`);
-  console.log(`   GET  http://localhost:${PORT}/test`);
-  console.log(`   POST http://localhost:${PORT}/api/contact`);
-  console.log('============================================');
-  console.log('⏳ En attente de requêtes...');
-  console.log('============================================');
+  console.log(`🚀 Serveur lancé sur http://localhost:${PORT}`);
 });
