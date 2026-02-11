@@ -1,0 +1,10 @@
+# robots.txt for Ali Echlouchi Portfolio
+
+User-agent: *
+Allow: /
+
+# Sitemap (update with your actual URL after deployment)
+# Sitemap: https://your-site-name.netlify.app/sitemap.xml
+
+# Disallow backend folder (not needed anymore but just in case)
+Disallow: /portfolio-backend/

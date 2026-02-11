@@ -1,0 +1,31 @@
+# Node modules (si vous ajoutez npm plus tard)
+node_modules/
+package-lock.json
+
+# Backend (plus nécessaire)
+portfolio-backend/
+
+# OS Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Build outputs (si vous utilisez un bundler plus tard)
+dist/
+build/
