@@ -97,6 +97,9 @@ async function trainAI() {
   manager.addDocument('fr', 'email', 'contact.email');
   manager.addDocument('fr', 'téléphone', 'contact.phone');
   manager.addDocument('fr', 'linkedin', 'contact.linkedin');
+  manager.addDocument('fr', 'voir ton linkedin', 'contact.linkedin');
+  manager.addDocument('fr', 'profil professionnel', 'contact.linkedin');
+  manager.addDocument('fr', 'réseau social', 'contact.linkedin');
   manager.addDocument('fr', 'github', 'contact.github');
   manager.addDocument('fr', 'localisation', 'contact.loc');
   manager.addDocument('fr', 'ville', 'contact.loc');
@@ -161,7 +164,7 @@ async function trainAI() {
   manager.addAnswer('fr', 'contact.info', "Contactez Ali au **+212 6 44 11 45 28** ou par email à **chlouchiali3@gmail.com**.");
   manager.addAnswer('fr', 'contact.email', "Son email est : **chlouchiali3@gmail.com** 📧");
   manager.addAnswer('fr', 'contact.phone', "Son numéro de téléphone : **+212 6 44 11 45 28** 📱");
-  manager.addAnswer('fr', 'contact.linkedin', "Lien LinkedIn : <a href='https://linkedin.com/in/echlouchi-ali/' target='_blank'>Ali Echlouchi</a>");
+  manager.addAnswer('fr', 'contact.linkedin', "Retrouvez le profil professionnel d'Ali sur LinkedIn pour plus de détails sur son parcours et ses recommandations : <a href='https://linkedin.com/in/echlouchi-ali/' target='_blank' style='color:#00e5ff; text-decoration: underline;'>🔗 Ali Echlouchi</a>");
   manager.addAnswer('fr', 'contact.github', "Lien GitHub : <a href='https://github.com/EchlouchiAli07' target='_blank'>EchlouchiAli07</a>");
   manager.addAnswer('fr', 'contact.loc', "Ali est basé à **Fès, Maroc**.");
 
