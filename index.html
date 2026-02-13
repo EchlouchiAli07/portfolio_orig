@@ -438,7 +438,7 @@
                             <h4>NDG Linux Essentials</h4>
                             <p>Cisco Networking Academy</p>
                             <a href="./certif/cert.pdf" class="download-link" target="_blank">
-                                <i class="fas fa-download"></i> Télécharger le certificat
+                                <i class="fas fa-eye"></i> Voir le Certificat
                             </a>
                         </div>
                     </div>
@@ -452,7 +452,7 @@
                             <p>Cisco Networking Academy</p>
                             <a href="./certif/EthicalHackerUpdate20251125-30-rbkb2s_compressed.pdf"
                                 class="download-link" target="_blank">
-                                <i class="fas fa-download"></i> Télécharger le certificat
+                                <i class="fas fa-eye"></i> Voir le Certificat
                             </a>
                         </div>
                     </div>
@@ -466,7 +466,7 @@
                             <p>Cisco Networking Academy</p>
                             <a href="./certif/IntrotoIoTUpdate20251125-30-maxncn.pdf" class="download-link"
                                 target="_blank">
-                                <i class="fas fa-download"></i> Télécharger le certificat
+                                <i class="fas fa-eye"></i> Voir le Certificat
                             </a>
                         </div>
                     </div>
@@ -480,7 +480,7 @@
                             <p>Cisco Networking Academy</p>
                             <a href="./certif/CEssentials1Update20251125-30-ily8w2_compressed.pdf" class="download-link"
                                 target="_blank">
-                                <i class="fas fa-download"></i> Télécharger le certificat
+                                <i class="fas fa-eye"></i> Voir le Certificat
                             </a>
                         </div>
                     </div>
@@ -494,7 +494,7 @@
                             <h4>Data Analysis with Python</h4>
                             <p>IBM</p>
                             <a href="./certif/ibm (1).pdf" class="download-link" target="_blank">
-                                <i class="fas fa-download"></i> Télécharger le certificat
+                                <i class="fas fa-eye"></i> Voir le Certificat
                             </a>
                         </div>
                     </div>
@@ -508,16 +508,16 @@
                             <h4>Computer Vision with Azure</h4>
                             <p>Microsoft</p>
                             <a href="./certif/Coursera 5JSCO8KR0XC3 (1).pdf" class="download-link" target="_blank">
-                                <i class="fas fa-download"></i> Télécharger le certificat
+                                <i class="fas fa-eye"></i> Voir le Certificat
                             </a>
                         </div>
                     </div>
                 </div>
 
                 <div style="text-align: center; margin-top: 40px;">
-                    <p style="color: var(--text-secondary); font-size: 0.9rem;">
-                        <i class="fas fa-info-circle" style="color: var(--accent); margin-right: 5px;"></i>
-                        Cliquez sur "Télécharger le certificat" pour obtenir une copie PDF
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; opacity: 0.8;">
+                        <i class="fas fa-check-circle" style="color: var(--secondary); margin-right: 5px;"></i>
+                        Certifications authentifiées et vérifiables
                     </p>
                 </div>
             </div>
@@ -895,12 +895,11 @@
     </main>
 
     <!-- Footer -->
+    <!-- Footer -->
     <footer>
-
         <p class="copyright">
             Made with ❤️ by Ali Echlouchi © <span id="currentYear">2025</span>
         </p>
-        </div>
     </footer>
 
     <!-- Scroll to Top Button -->
@@ -976,129 +975,7 @@
 
     <!-- AI LOGIC v4.0 -->
     <script>
-        (function () {
-            const els = {
-                toggle: document.getElementById('ai_toggle'),
-                window: document.getElementById('ai_window'),
-                close: document.getElementById('ai_close'),
-                clear: document.getElementById('ai_clear'),
-                input: document.getElementById('ai_input'),
-                send: document.getElementById('ai_send'),
-                messages: document.getElementById('ai_messages'),
-                typing: document.getElementById('ai_typing')
-            };
 
-            if (!els.toggle || !els.window) return;
-
-            window.handleAiSuggestion = (text) => {
-                addMsg(text, 'user');
-                askAI(text);
-            };
-
-            els.toggle.onclick = () => {
-                const isVisible = els.window.style.display === 'flex';
-                els.window.style.display = isVisible ? 'none' : 'flex';
-                els.window.classList.toggle('active', !isVisible);
-                if (!isVisible) setTimeout(() => els.input.focus(), 100);
-            };
-
-            els.close.onclick = () => {
-                els.window.style.display = 'none';
-                els.window.classList.remove('active');
-            };
-
-            els.clear.onclick = () => {
-                const messages = els.messages.querySelectorAll('.message');
-                messages.forEach((m, i) => { if (i > 0) m.remove(); });
-                // Reset scroll
-                els.messages.scrollTop = 0;
-            };
-
-            els.send.onclick = () => {
-                const val = els.input.value.trim();
-                if (val) {
-                    addMsg(val, 'user');
-                    els.input.value = '';
-                    askAI(val);
-                }
-            };
-
-            els.input.onkeypress = (e) => { if (e.key === 'Enter') els.send.onclick(); };
-
-            function addMsg(text, sender) {
-                const div = document.createElement('div');
-                div.className = `message ${sender}-message`;
-                div.innerHTML = `<div class="message-content">${text}</div>`;
-                if (els.typing) {
-                    els.messages.insertBefore(div, els.typing);
-                } else {
-                    els.messages.appendChild(div);
-                }
-                els.messages.scrollTo({ top: els.messages.scrollHeight, behavior: 'smooth' });
-            }
-
-            async function askAI(input) {
-                if (els.typing) els.typing.style.display = 'flex';
-                els.messages.scrollTop = els.messages.scrollHeight;
-
-                let reply = "";
-                const low = input.toLowerCase();
-
-                // 10000% ACCURATE SYNC RESPONSES (Fallback if server is slow or for speed)
-                if (low.includes('compétence') || low.includes('sait faire') || low.includes('techno') || low.includes('maitrise')) {
-                    reply = "Ali est un expert polyvalent :<br>• **IA & Data Science** (90%) : ML, Deep Learning, NLP.<br>• **Développement Web** (88%) : MERN Stack, Next.js, NestJS.<br>• **Bases de Données** (85%) : PostgreSQL, MongoDB.<br>• **Programmation** (83%) : Java, Python, C++.";
-                } else if (low.includes('formation') || low.includes('études') || low.includes('master') || low.includes('licence')) {
-                    if (low.includes('licence')) {
-                        reply = "Diplômé d'une **Licence en Ingénierie Logicielle** (2022-2025) à l'ESISA, Fès.";
-                    } else if (low.includes('master') || low.includes('is2ia')) {
-                        reply = "Actuellement en **Master IS2IA** (Ingénierie des Systèmes d'Information et IA) à l'ESISA, Fès (2025-2026).";
-                    } else {
-                        reply = "Parcours d'Ali : **Master IS2IA** (En cours), **Licence en Ingénierie Logicielle** (Diplômé) et **Bac PC** (Section Française).";
-                    }
-                } else if (low.includes('projet') || (low.includes('réalisé') && !low.includes('clinique'))) {
-                    reply = "Ali a 4 projets académiques : **Chatbot Éducatif** (MERN), **Étude Transport** (Data ACM), **Système Bancaire** (Flask/Sécurité) et **Virtual Mall 3D** (Three.js).";
-                } else if (low.includes('clinique') || low.includes('expérience') || low.includes('travail')) {
-                    reply = "Son expérience phare : **Développeur Full Stack & IA** sur le projet **Clinique Intelligente** (2024-2025). Il a créé un chatbot médical, géré des ordonnances numériques et la messagerie temps réel.";
-                } else if (low.includes('certification') || low.includes('certif') || low.includes('diplôme')) {
-                    reply = "Certifié 6 fois : **Linux Essentials**, **Ethical Hacker**, **IoT**, **C++ Essentials** (Cisco), **Data Analysis** (IBM) et **Computer Vision** (Azure/Microsoft).";
-                } else if (low.includes('cv') || low.includes('parcours')) {
-                    reply = "Consultez le CV complet de l'expert Ali Echlouchi ici : <a href='cv/CV_Echlouchi_Ali.pdf' target='_blank' style='color: var(--primary); text-decoration: underline;'>📄 Voir le CV PDF</a>";
-                } else if (low.includes('contact') || low.includes('email') || low.includes('mail') || low.includes('écrire') || low.includes('téléphone') || low.includes('linkedin') || low.includes('github')) {
-                    reply = "Voici comment me contacter directement :<br>• 📧 Email : <a href='mailto:chlouchiali3@gmail.com' style='color:#00e5ff;'>chlouchiali3@gmail.com</a><br>• 📱 Tél : <a href='tel:+212644114528' style='color:#00e5ff;'>+212 6 44 11 45 28</a><br>• 🔗 LinkedIn : <a href='https://linkedin.com/in/echlouchi-ali/' target='_blank' style='color:#00e5ff;'>In/echlouchi-ali</a><br>• 💻 GitHub : <a href='https://github.com/EchlouchiAli07' target='_blank' style='color:#00e5ff;'>EchlouchiAli07</a>";
-                } else if (low.includes('localisation') || low.includes('où') || low.includes('habite') || low.includes('ville')) {
-                    reply = "Ali est basé à **Fès, Maroc**. Il est mobile pour des opportunités partout dans le monde.";
-                } else if (low.includes('langue') || low.includes('parles-tu') || low.includes('anglais') || low.includes('français') || low.includes('arabe') || low.includes('espagnol')) {
-                    reply = "Ali parle couramment l'**Arabe** (langue maternelle), le **Français** (Niveau Avancé TCF B2) et l'**Anglais** (Niveau Intermédiaire B1/B2). Il a également des **bases en Espagnol**.";
-                } else if (low.includes('loisir') || low.includes('passion') || low.includes('sport') || low.includes('libre') || low.includes('volleyball')) {
-                    reply = "Quand il n'est pas devant ses algorithmes, Ali se passionne pour :<br>• 🏐 **Volleyball** (Compétition & Esprit d'équipe)<br>• 🎮 **Gaming** (Logique & Stratégie)<br>• 📸 **Photographie**<br>• 🌍 **Voyage**.";
-                } else if (low.includes('bonjour') || low.includes('salut') || low.includes('hello')) {
-                    reply = "Bonjour ! Je suis l'assistant d'Ali Echlouchi. Je connais parfaitement son parcours. Une question sur ses projets ou son Master IS2IA ?";
-                } else {
-                    try {
-                        const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-                            ? 'http://localhost:3001'
-                            : 'https://portfolio-ali-backend.onrender.com'; // À mettre à jour après déploiement backend
-
-                        const res = await fetch(`${API_URL}/api/chat`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ message: input })
-                        });
-                        if (res.ok) {
-                            const data = await res.json();
-                            reply = data.answer;
-                        } else { throw new Error(); }
-                    } catch (e) {
-                        reply = "Je n'ai pas la réponse précise, mais je peux vous confirmer qu'Ali est un expert en IA et Dev Full Stack. Contactez-le pour en savoir plus !";
-                    }
-                }
-
-                setTimeout(() => {
-                    if (els.typing) els.typing.style.display = 'none';
-                    addMsg(reply || "Je reste à votre disposition !", 'ai');
-                }, 800);
-            }
-        })();
     </script>
     <!-- Toast Container -->
     <div class="toast-container" id="toast-container"></div>

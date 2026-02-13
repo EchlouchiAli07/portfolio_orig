@@ -23,7 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
         { name: 'IntersectionObserver', fn: initIntersectionObserver },
         { name: 'AnimatedCounters', fn: initAnimatedCounters },
         { name: 'RadarChart', fn: initRadarChart },
-        { name: 'AISkillBars', fn: initAISkillBars }
+        { name: 'AISkillBars', fn: initAISkillBars },
+        { name: 'AIChatbot', fn: initAIChatbot },
+        { name: 'CustomCursor', fn: initCustomCursor }
     ];
 
     inits.forEach(item => {
@@ -288,115 +290,131 @@ function initContactForm() {
 // ============================================
 // 10. CHAT WIDGET (ROBUST & DEBUG VERSION)
 // ============================================
-function initChatWidget() {
-    console.log('Initializing Secure Chat Logic...');
-
-    const chatInput = document.getElementById('chatInput');
-    const sendMessageBtn = document.getElementById('sendMessage');
-    const chatMessages = document.getElementById('chatMessages');
-    const typingIndicator = document.getElementById('typingIndicator');
-    const closeChat = document.querySelector('.close-chat');
-    const chatWindow = document.querySelector('.chat-window');
-
-    if (!chatInput || !sendMessageBtn || !chatMessages) {
-        console.error('Chat elements missing!');
-        return;
-    }
-
-    // --- GLOBAL FUNCTION FOR BUTTONS ---
-    window.sendSuggestion = function (message) {
-        console.log('Suggestion Clicked:', message);
-        addMessage(message, 'user');
-        processUserInput(message);
+// ============================================
+// 10. CHAT WIDGET (AI CHATBOT v4.0)
+// ============================================
+function initAIChatbot() {
+    const els = {
+        toggle: document.getElementById('ai_toggle'),
+        window: document.getElementById('ai_window'),
+        close: document.getElementById('ai_close'),
+        clear: document.getElementById('ai_clear'),
+        input: document.getElementById('ai_input'),
+        send: document.getElementById('ai_send'),
+        messages: document.getElementById('ai_messages'),
+        typing: document.getElementById('ai_typing')
     };
 
-    // --- CLOSE BUTTON ---
-    if (closeChat && chatWindow) {
-        closeChat.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            chatWindow.style.display = 'none';
-            // Also remove active class from toggle if possible, 
-            // but we don't have reference to toggle here easily unless queried again.
-            document.querySelector('.chat-toggle')?.classList.remove('active');
-            document.querySelector('.chat-window')?.classList.remove('active');
-        });
-    }
+    if (!els.toggle || !els.window) return;
 
-    // --- SEND MESSAGE ---
-    async function handleSendMessage() {
-        console.log('Send Message Clicked');
-        const message = chatInput.value.trim();
-        if (!message) return;
-
-        addMessage(message, 'user');
-        chatInput.value = '';
-        await processUserInput(message);
-    }
-
-    // Direct event assignment for robustness
-    sendMessageBtn.onclick = handleSendMessage;
-
-    chatInput.onkeypress = (e) => {
-        if (e.key === 'Enter') handleSendMessage();
+    window.handleAiSuggestion = (text) => {
+        addMsg(text, 'user');
+        askAI(text);
     };
 
-    // --- HELPER: ADD MESSAGE ---
-    function addMessage(text, sender) {
+    els.toggle.onclick = () => {
+        const isVisible = els.window.style.display === 'flex';
+        els.window.style.display = isVisible ? 'none' : 'flex';
+        els.window.classList.toggle('active', !isVisible);
+        if (!isVisible) setTimeout(() => els.input.focus(), 100);
+    };
+
+    els.close.onclick = () => {
+        els.window.style.display = 'none';
+        els.window.classList.remove('active');
+    };
+
+    els.clear.onclick = () => {
+        const messages = els.messages.querySelectorAll('.message');
+        messages.forEach((m, i) => { if (i > 0) m.remove(); });
+        // Reset scroll
+        els.messages.scrollTop = 0;
+    };
+
+    els.send.onclick = () => {
+        const val = els.input.value.trim();
+        if (val) {
+            addMsg(val, 'user');
+            els.input.value = '';
+            askAI(val);
+        }
+    };
+
+    els.input.onkeypress = (e) => { if (e.key === 'Enter') els.send.onclick(); };
+
+    function addMsg(text, sender) {
         const div = document.createElement('div');
         div.className = `message ${sender}-message`;
-        div.innerHTML = `<div class="message-content">${text}</div><div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>`;
-
-        if (typingIndicator) {
-            chatMessages.insertBefore(div, typingIndicator);
+        div.innerHTML = `<div class="message-content">${text}</div>`;
+        if (els.typing) {
+            els.messages.insertBefore(div, els.typing);
         } else {
-            chatMessages.appendChild(div);
+            els.messages.appendChild(div);
         }
-        chatMessages.scrollTop = chatMessages.scrollHeight;
+        els.messages.scrollTo({ top: els.messages.scrollHeight, behavior: 'smooth' });
     }
 
-    // --- CORE: PROCESS INPUT ---
-    async function processUserInput(input) {
-        console.log('Processing:', input);
-        if (typingIndicator) typingIndicator.style.display = 'flex';
-        chatMessages.scrollTop = chatMessages.scrollHeight;
+    async function askAI(input) {
+        if (els.typing) els.typing.style.display = 'flex';
+        els.messages.scrollTop = els.messages.scrollHeight;
 
-        let responseText = '';
+        let reply = "";
+        const low = input.toLowerCase();
 
-        try {
-            console.log('Fetching Backend...');
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 4000);
-
-            // Try to reach backend
-            const res = await fetch('http://localhost:3001/api/chat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: input }),
-                signal: controller.signal
-            });
-            clearTimeout(timeoutId);
-
-            if (res.ok) {
-                const data = await res.json();
-                responseText = data.answer;
-                console.log('Backend Success:', responseText);
+        // 10000% ACCURATE SYNC RESPONSES (Fallback if server is slow or for speed)
+        if (low.includes('compétence') || low.includes('sait faire') || low.includes('techno') || low.includes('maitrise')) {
+            reply = "Ali est un expert polyvalent :<br>• **IA & Data Science** (90%) : ML, Deep Learning, NLP.<br>• **Développement Web** (88%) : MERN Stack, Next.js, NestJS.<br>• **Bases de Données** (85%) : PostgreSQL, MongoDB.<br>• **Programmation** (83%) : Java, Python, C++.";
+        } else if (low.includes('formation') || low.includes('études') || low.includes('master') || low.includes('licence')) {
+            if (low.includes('licence')) {
+                reply = "Diplômé d'une **Licence en Ingénierie Logicielle** (2022-2025) à l'ESISA, Fès.";
+            } else if (low.includes('master') || low.includes('is2ia')) {
+                reply = "Actuellement en **Master IS2IA** (Ingénierie des Systèmes d'Information et IA) à l'ESISA, Fès (2025-2026).";
             } else {
-                throw new Error('API Error');
+                reply = "Parcours d'Ali : **Master IS2IA** (En cours), **Licence en Ingénierie Logicielle** (Diplômé) et **Bac PC** (Section Française).";
             }
-        } catch (error) {
-            console.warn('Backend Fail/Timeout:', error);
-            // FALLBACK RESPONSES
-            const lower = input.toLowerCase();
-            if (lower.includes('bonjour') || lower.includes('salut')) responseText = "Bonjour ! (Mode Hors-Ligne) Comment puis-je vous aider ?";
-            else if (lower.includes('projet')) responseText = "Vous pouvez voir mes projets dans la section dédiée sur ce site !";
-            else if (lower.includes('contact')) responseText = "Contactez-moi via le formulaire ou sur LinkedIn.";
-            else if (lower.includes('cv')) responseText = "Le CV est téléchargeable juste au dessus.";
-            else responseText = "Je n'ai pas accès à mon cerveau IA (Backend éteint). Essayez de me contacter par email !";
+        } else if (low.includes('projet') || (low.includes('réalisé') && !low.includes('clinique'))) {
+            reply = "Ali a 4 projets académiques : **Chatbot Éducatif** (MERN), **Étude Transport** (Data ACM), **Système Bancaire** (Flask/Sécurité) et **Virtual Mall 3D** (Three.js).";
+        } else if (low.includes('clinique') || low.includes('expérience') || low.includes('travail')) {
+            reply = "Son expérience phare : **Développeur Full Stack & IA** sur le projet **Clinique Intelligente** (2024-2025). Il a créé un chatbot médical, géré des ordonnances numériques et la messagerie temps réel.";
+        } else if (low.includes('certification') || low.includes('certif') || low.includes('diplôme')) {
+            reply = "Certifié 6 fois : **Linux Essentials**, **Ethical Hacker**, **IoT**, **C++ Essentials** (Cisco), **Data Analysis** (IBM) et **Computer Vision** (Azure/Microsoft).";
+        } else if (low.includes('cv') || low.includes('parcours')) {
+            reply = "Consultez le CV complet de l'expert Ali Echlouchi ici : <a href='cv/CV_Echlouchi_Ali.pdf' target='_blank' style='color: var(--primary); text-decoration: underline;'>📄 Voir le CV PDF</a>";
+        } else if (low.includes('contact') || low.includes('email') || low.includes('mail') || low.includes('écrire') || low.includes('téléphone') || low.includes('linkedin') || low.includes('github')) {
+            reply = "Voici comment me contacter directement :<br>• 📧 Email : <a href='mailto:chlouchiali3@gmail.com' style='color:#00e5ff;'>chlouchiali3@gmail.com</a><br>• 📱 Tél : <a href='tel:+212644114528' style='color:#00e5ff;'>+212 6 44 11 45 28</a><br>• 🔗 LinkedIn : <a href='https://linkedin.com/in/echlouchi-ali/' target='_blank' style='color:#00e5ff;'>In/echlouchi-ali</a><br>• 💻 GitHub : <a href='https://github.com/EchlouchiAli07' target='_blank' style='color:#00e5ff;'>EchlouchiAli07</a>";
+        } else if (low.includes('localisation') || low.includes('où') || low.includes('habite') || low.includes('ville')) {
+            reply = "Ali est basé à **Fès, Maroc**. Il est mobile pour des opportunités partout dans le monde.";
+        } else if (low.includes('langue') || low.includes('parles-tu') || low.includes('anglais') || low.includes('français') || low.includes('arabe') || low.includes('espagnol')) {
+            reply = "Ali parle couramment l'**Arabe** (langue maternelle), le **Français** (Niveau Avancé TCF B2) et l'**Anglais** (Niveau Intermédiaire B1/B2). Il a également des **bases en Espagnol**.";
+        } else if (low.includes('loisir') || low.includes('passion') || low.includes('sport') || low.includes('libre') || low.includes('volleyball')) {
+            reply = "Quand il n'est pas devant ses algorithmes, Ali se passionne pour :<br>• 🏐 **Volleyball** (Compétition & Esprit d'équipe)<br>• 🎮 **Gaming** (Logique & Stratégie)<br>• 📸 **Photographie**<br>• 🌍 **Voyage**.";
+        } else if (low.includes('bonjour') || low.includes('salut') || low.includes('hello')) {
+            reply = "Bonjour ! Je suis l'assistant d'Ali Echlouchi. Je connais parfaitement son parcours. Une question sur ses projets ou son Master IS2IA ?";
+        } else {
+            try {
+                const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+                    ? 'http://localhost:3001'
+                    : 'https://portfolio-ali-backend.onrender.com'; // À mettre à jour après déploiement backend
+
+                const res = await fetch(`${API_URL}/api/chat`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: input })
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    reply = data.answer;
+                } else { throw new Error(); }
+            } catch (e) {
+                console.warn("Backend API Chat Error:", e);
+                reply = "Je n'ai pas la réponse précise, mais je peux vous confirmer qu'Ali est un expert en IA et Dev Full Stack. Contactez-le pour en savoir plus !";
+            }
         }
 
-        if (typingIndicator) typingIndicator.style.display = 'none';
-        addMessage(responseText, 'ai');
+        setTimeout(() => {
+            if (els.typing) els.typing.style.display = 'none';
+            addMsg(reply || "Je reste à votre disposition !", 'ai');
+        }, 800);
     }
 }
 
@@ -606,7 +624,49 @@ function initAISkillBars() {
     observer.observe(barsContainer);
 }
 
-// 14. MODERN TOAST SYSTEM
+// 14. CUSTOM CURSOR
+function initCustomCursor() {
+    const cursor = document.querySelector('.custom-cursor');
+    const follower = document.querySelector('.cursor-follower');
+    if (!cursor || !follower) return;
+
+    // Only enable on desktop
+    if (window.matchMedia("(pointer: coarse)").matches) {
+        cursor.style.display = 'none';
+        follower.style.display = 'none';
+        return;
+    }
+
+    document.addEventListener('mousemove', (e) => {
+        const { clientX: x, clientY: y } = e;
+        cursor.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+        follower.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+    });
+
+    document.addEventListener('mousedown', () => {
+        cursor.classList.add('expand');
+        follower.classList.add('expand');
+    });
+
+    document.addEventListener('mouseup', () => {
+        cursor.classList.remove('expand');
+        follower.classList.remove('expand');
+    });
+
+    // Hover effects
+    document.querySelectorAll('a, button, .chat-toggle, .certification-item').forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursor.classList.add('hovered');
+            follower.classList.add('hovered');
+        });
+        el.addEventListener('mouseleave', () => {
+            cursor.classList.remove('hovered');
+            follower.classList.remove('hovered');
+        });
+    });
+}
+
+// 15. MODERN TOAST SYSTEM
 function showToast(message, type = 'success', duration = 5000) {
     const container = document.getElementById('toast-container');
     if (!container) return;
