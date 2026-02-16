@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { name: 'RadarChart', fn: initRadarChart },
         { name: 'AISkillBars', fn: initAISkillBars },
         { name: 'AIChatbot', fn: initAIChatbot },
+        { name: 'LanguageSwitcher', fn: initLanguageSwitcher },
         { name: 'CustomCursor', fn: initCustomCursor }
     ];
 
@@ -69,22 +70,31 @@ function initParticles() {
 }
 
 // 3. THEME TOGGLE
+window.toggleTheme = function () {
+    const html = document.documentElement;
+    const currentTheme = html.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    updateThemeIcon(newTheme);
+    console.log("Theme toggled to:", newTheme);
+};
+
 function initThemeToggle() {
     const themeToggle = document.querySelector('.theme-toggle');
     const html = document.documentElement;
-    if (!themeToggle) return;
 
+    // Set initial theme
     const currentTheme = localStorage.getItem('theme') || 'dark';
     html.setAttribute('data-theme', currentTheme);
     updateThemeIcon(currentTheme);
 
-    themeToggle.addEventListener('click', () => {
-        const currentTheme = html.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        html.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-        updateThemeIcon(newTheme);
-    });
+    // Event listener is now handled by inline onclick for robustness
+    /*
+    if (themeToggle) {
+        themeToggle.addEventListener('click', window.toggleTheme);
+    }
+    */
 }
 
 function updateThemeIcon(theme) {
@@ -93,30 +103,29 @@ function updateThemeIcon(theme) {
 }
 
 // 4. MOBILE MENU
-function initMobileMenu() {
-    const mobileMenu = document.querySelector('.mobile-menu');
+window.toggleMobileMenu = function () {
     const navLinks = document.querySelector('.nav-links');
-    if (!mobileMenu || !navLinks) return;
+    const mobileMenuIcon = document.querySelector('.mobile-menu i');
 
-    mobileMenu.addEventListener('click', function () {
-        navLinks.classList.toggle('active');
-        const icon = this.querySelector('i');
-        if (navLinks.classList.contains('active')) {
-            icon.classList.remove('fa-bars');
-            icon.classList.add('fa-times');
-        } else {
-            icon.classList.remove('fa-times');
-            icon.classList.add('fa-bars');
-        }
-    });
+    if (!navLinks) return;
 
+    navLinks.classList.toggle('active');
+    const isActive = navLinks.classList.contains('active');
+
+    if (mobileMenuIcon) {
+        mobileMenuIcon.className = isActive ? 'fas fa-times' : 'fas fa-bars';
+    }
+    console.log("Mobile menu toggled. Active:", isActive);
+};
+
+function initMobileMenu() {
+    const navLinks = document.querySelector('.nav-links');
+
+    // Close menu when a link is clicked
     document.querySelectorAll('.nav-links a').forEach(item => {
         item.addEventListener('click', () => {
-            navLinks.classList.remove('active');
-            const icon = mobileMenu.querySelector('i');
-            if (icon) {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
+            if (navLinks && navLinks.classList.contains('active')) {
+                window.toggleMobileMenu(); // Close it
             }
         });
     });
@@ -146,14 +155,40 @@ function initScrollEffects() {
 }
 
 // 6. TYPING EFFECT
+// 6. TYPING EFFECT
 function initTypingEffect() {
     const typingText = document.querySelector('.typing');
     if (!typingText) return;
-    const words = ['IS2IA', 'Intelligence Artificielle', 'Data Science', 'Développement Full-Stack'];
+
+    // Get words from translations or fallback
+    const getWords = () => {
+        const lang = localStorage.getItem('language') || 'fr';
+        const t = window.translations || (typeof translations !== 'undefined' ? translations : null);
+        if (t && t[lang] && t[lang].typing_items) {
+            return t[lang].typing_items;
+        }
+        return ['IS2IA', 'Intelligence Artificielle', 'Data Science', 'Développement Full-Stack'];
+    };
+
+    let words = getWords();
     let wordIndex = 0, charIndex = 0, isDeleting = false;
 
+    // Listener for language change to update words dynamically? 
+    // For now, simpler to just reload page, but let's try to be reactive if possible.
+    // Actually, updateLanguage function could re-trigger this, but for now let's just use current lang on load.
+
     function type() {
-        const currentWord = words[wordIndex];
+        // Refresh words list on every new word start, in case language changed without reload
+        if (charIndex === 0 && !isDeleting) {
+            const newWords = getWords();
+            if (newWords[0] !== words[0]) { // Simple check if lang changed
+                words = newWords;
+                wordIndex = 0; // Reset index to avoid out of bounds
+            }
+        }
+
+        const currentWord = words[wordIndex % words.length];
+
         if (isDeleting) {
             typingText.textContent = currentWord.substring(0, charIndex - 1);
             charIndex--;
@@ -226,9 +261,19 @@ function initContactForm() {
     if (!form) return;
     form.addEventListener('submit', async function (e) {
         e.preventDefault();
+        const lang = localStorage.getItem('language') || 'fr';
+        const t = (window.translations && window.translations[lang]) || (window.translations ? window.translations['fr'] : null);
+
+        // Fallback checks
+        const txt_sending = t ? t.form_btn_sending : "Envoi...";
+        const txt_success_both = t ? t.form_toast_success_both : "Message envoyé avec succès au serveur et à Formspree ! 🚀";
+        const txt_success_local = t ? t.form_toast_success_local : "Message envoyé au serveur local ! (Formspree en attente)";
+        const txt_success_fs = t ? t.form_toast_success_formspree : "Message envoyé avec succès ! ✨";
+        const txt_error = t ? t.form_toast_error : "Échec de l'envoi. Veuillez vérifier votre connexion.";
+
         const submitBtn = this.querySelector('button[type="submit"]');
         const originalText = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi...';
+        submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${txt_sending}`;
         submitBtn.disabled = true;
 
         const formData = new FormData(form);
@@ -270,16 +315,16 @@ function initContactForm() {
 
         // --- RÉSULTATS ---
         if (backendSuccess && formspreeSuccess) {
-            showToast("Message envoyé avec succès au serveur et à Formspree ! 🚀", 'success');
+            showToast(txt_success_both, 'success');
             form.reset();
         } else if (backendSuccess) {
-            showToast("Message envoyé au serveur local ! (Formspree en attente)", 'warning');
+            showToast(txt_success_local, 'warning');
             form.reset();
         } else if (formspreeSuccess) {
-            showToast("Message envoyé avec succès ! ✨", 'success');
+            showToast(txt_success_fs, 'success');
             form.reset();
         } else {
-            showToast("Échec de l'envoi. Veuillez vérifier votre connexion.", 'error');
+            showToast(txt_error, 'error');
         }
 
         submitBtn.innerHTML = originalText;
@@ -313,14 +358,16 @@ function initAIChatbot() {
     };
 
     els.toggle.onclick = () => {
-        const isVisible = els.window.style.display === 'flex';
-        els.window.style.display = isVisible ? 'none' : 'flex';
+        const isVisible = els.window.classList.contains('active');
+        // Toggle active class (handles visibility/opacity/scale transition)
         els.window.classList.toggle('active', !isVisible);
+
+        // Ensure display is managed if needed, but for smooth transition we keep it in DOM
+        // If logic previously relied on display:none, we remove that dependency
         if (!isVisible) setTimeout(() => els.input.focus(), 100);
     };
 
     els.close.onclick = () => {
-        els.window.style.display = 'none';
         els.window.classList.remove('active');
     };
 
@@ -358,63 +405,109 @@ function initAIChatbot() {
         if (els.typing) els.typing.style.display = 'flex';
         els.messages.scrollTop = els.messages.scrollHeight;
 
-        let reply = "";
-        const low = input.toLowerCase();
+        // Simulate network delay for realism
+        await new Promise(r => setTimeout(r, 600));
+        if (els.typing) els.typing.style.display = 'none';
 
-        // 10000% ACCURATE SYNC RESPONSES (Fallback if server is slow or for speed)
-        if (low.includes('compétence') || low.includes('sait faire') || low.includes('techno') || low.includes('maitrise')) {
-            reply = "Ali est un expert polyvalent :<br>• **IA & Data Science** (90%) : ML, Deep Learning, NLP.<br>• **Développement Web** (88%) : MERN Stack, Next.js, NestJS.<br>• **Bases de Données** (85%) : PostgreSQL, MongoDB.<br>• **Programmation** (83%) : Java, Python, C++.";
-        } else if (low.includes('formation') || low.includes('études') || low.includes('master') || low.includes('licence')) {
-            if (low.includes('licence')) {
-                reply = "Diplômé d'une **Licence en Ingénierie Logicielle** (2022-2025) à l'ESISA, Fès.";
-            } else if (low.includes('master') || low.includes('is2ia')) {
-                reply = "Actuellement en **Master IS2IA** (Ingénierie des Systèmes d'Information et IA) à l'ESISA, Fès (2025-2026).";
-            } else {
-                reply = "Parcours d'Ali : **Master IS2IA** (En cours), **Licence en Ingénierie Logicielle** (Diplômé) et **Bac PC** (Section Française).";
-            }
-        } else if (low.includes('projet') || (low.includes('réalisé') && !low.includes('clinique'))) {
-            reply = "Ali a 4 projets académiques : **Chatbot Éducatif** (MERN), **Étude Transport** (Data ACM), **Système Bancaire** (Flask/Sécurité) et **Virtual Mall 3D** (Three.js).";
-        } else if (low.includes('clinique') || low.includes('expérience') || low.includes('travail')) {
-            reply = "Son expérience phare : **Développeur Full Stack & IA** sur le projet **Clinique Intelligente** (2024-2025). Il a créé un chatbot médical, géré des ordonnances numériques et la messagerie temps réel.";
-        } else if (low.includes('certification') || low.includes('certif') || low.includes('diplôme')) {
-            reply = "Certifié 6 fois : **Linux Essentials**, **Ethical Hacker**, **IoT**, **C++ Essentials** (Cisco), **Data Analysis** (IBM) et **Computer Vision** (Azure/Microsoft).";
-        } else if (low.includes('cv') || low.includes('parcours')) {
-            reply = "Consultez le CV complet de l'expert Ali Echlouchi ici : <a href='cv/CV_Echlouchi_Ali.pdf' target='_blank' style='color: var(--primary); text-decoration: underline;'>📄 Voir le CV PDF</a>";
-        } else if (low.includes('contact') || low.includes('email') || low.includes('mail') || low.includes('écrire') || low.includes('téléphone') || low.includes('linkedin') || low.includes('github')) {
-            reply = "Voici comment me contacter directement :<br>• 📧 Email : <a href='mailto:chlouchiali3@gmail.com' style='color:#00e5ff;'>chlouchiali3@gmail.com</a><br>• 📱 Tél : <a href='tel:+212644114528' style='color:#00e5ff;'>+212 6 44 11 45 28</a><br>• 🔗 LinkedIn : <a href='https://linkedin.com/in/echlouchi-ali/' target='_blank' style='color:#00e5ff;'>In/echlouchi-ali</a><br>• 💻 GitHub : <a href='https://github.com/EchlouchiAli07' target='_blank' style='color:#00e5ff;'>EchlouchiAli07</a>";
-        } else if (low.includes('localisation') || low.includes('où') || low.includes('habite') || low.includes('ville')) {
-            reply = "Ali est basé à **Fès, Maroc**. Il est mobile pour des opportunités partout dans le monde.";
-        } else if (low.includes('langue') || low.includes('parles-tu') || low.includes('anglais') || low.includes('français') || low.includes('arabe') || low.includes('espagnol')) {
-            reply = "Ali parle couramment l'**Arabe** (langue maternelle), le **Français** (Niveau Avancé TCF B2) et l'**Anglais** (Niveau Intermédiaire B1/B2). Il a également des **bases en Espagnol**.";
-        } else if (low.includes('loisir') || low.includes('passion') || low.includes('sport') || low.includes('libre') || low.includes('volleyball')) {
-            reply = "Quand il n'est pas devant ses algorithmes, Ali se passionne pour :<br>• 🏐 **Volleyball** (Compétition & Esprit d'équipe)<br>• 🎮 **Gaming** (Logique & Stratégie)<br>• 📸 **Photographie**<br>• 🌍 **Voyage**.";
-        } else if (low.includes('bonjour') || low.includes('salut') || low.includes('hello')) {
-            reply = "Bonjour ! Je suis l'assistant d'Ali Echlouchi. Je connais parfaitement son parcours. Une question sur ses projets ou son Master IS2IA ?";
-        } else {
-            try {
-                const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-                    ? 'http://localhost:3001'
-                    : 'https://portfolio-ali-backend.onrender.com'; // À mettre à jour après déploiement backend
-
-                const res = await fetch(`${API_URL}/api/chat`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: input })
-                });
-                if (res.ok) {
-                    const data = await res.json();
-                    reply = data.answer;
-                } else { throw new Error(); }
-            } catch (e) {
-                console.warn("Backend API Chat Error:", e);
-                reply = "Je n'ai pas la réponse précise, mais je peux vous confirmer qu'Ali est un expert en IA et Dev Full Stack. Contactez-le pour en savoir plus !";
-            }
+        const lang = localStorage.getItem('language') || 'fr';
+        // Ensure translations are loaded
+        if (typeof translations === 'undefined') {
+            console.error("Translations not loaded");
+            addMsg("Error: Translations not loaded.", 'ai');
+            return;
         }
 
-        setTimeout(() => {
-            if (els.typing) els.typing.style.display = 'none';
-            addMsg(reply || "Je reste à votre disposition !", 'ai');
-        }, 800);
+        const t = translations[lang] || translations['fr'];
+
+        let reply = t.chat_fallback; // Default
+        const low = input.toLowerCase();
+
+        // Keywords for each topic per language
+        const keywords = {
+            fr: {
+                greeting: ['bonjour', 'salut', 'coucou', 'hello', 'hi', 'ça va', 'bonsoir', 'hey'],
+                identity: ['qui es-tu', 'ton nom', 't\'appelles', 'tu es qui', 'présente-toi', 'c\'est qui', 'es-tu', 'ali', 'bot', 'assistant'],
+                skills: ['compétence', 'sait faire', 'techno', 'maitrise', 'skill', 'langage', 'stack', 'java', 'python', 'react', 'node', 'sql', 'niveau', 'programmation', 'code', 'data', 'ia', 'intelligence artificielle', 'big data', 'bi'],
+                education: ['formation', 'étude', 'master', 'licence', 'diplôme', 'parcours', 'école', 'université', 'faculté', 'bac', 'cursus'],
+                projects: ['projet', 'réalisé', 'portfolio', 'création', 'work', 'application', 'site', 'web', 'github', 'energyai', 'iot', 'smart city', '3d', 'mall', 'bancaire', 'transport'],
+                experience: ['expérience', 'travail', 'clinique', 'entreprise', 'stage', 'job', 'mission', 'poste', 'carrière'],
+                certifications: ['certification', 'certif', 'brevet', 'certifié'],
+                cv: ['cv', 'curriculum', 'resume'],
+                contact: ['contact', 'email', 'mail', 'joindre', 'téléphone', 'numéro', 'appeler'],
+                languages: ['langue', 'parle', 'comprend', 'français', 'anglais', 'arabe'],
+                hobbies: ['hobby', 'hobbies', 'passion', 'loisir', 'sport', 'dessin', 'lecture', 'volleyball']
+            },
+            en: {
+                greeting: ['hello', 'hi', 'hey', 'greetings', 'morning', 'evening', 'sup', 'howdy'],
+                identity: ['who are you', 'your name', 'introduce', 'what represent', 'who is ali', 'ali', 'bot', 'assistant'],
+                skills: ['skill', 'competence', 'tech', 'stack', 'master', 'language', 'know', 'java', 'python', 'react', 'node', 'sql', 'coding', 'program', 'data', 'ai', 'artificial intelligence', 'big data', 'bi'],
+                education: ['education', 'study', 'degree', 'master', 'bachelor', 'school', 'university', 'college', 'studied', 'academic'],
+                projects: ['project', 'portfolio', 'work', 'built', 'creation', 'app', 'website', 'github', 'energyai', 'iot', 'smart city', '3d', 'mall', 'banking', 'transport'],
+                experience: ['experience', 'job', 'internship', 'clinique', 'clinic', 'background', 'career', 'work'],
+                certifications: ['certification', 'certificate', 'credential', 'certified'],
+                cv: ['cv', 'resume', 'curriculum', 'pdf'],
+                contact: ['contact', 'email', 'reach', 'phone', 'call', 'mail', 'number'],
+                languages: ['language', 'speak', 'understand', 'english', 'french', 'arabic'],
+                hobbies: ['hobby', 'hobbies', 'passion', 'leisure', 'sport', 'drawing', 'reading', 'volleyball']
+            },
+            es: {
+                greeting: ['hola', 'buenos días', 'buenas', 'qué tal', 'hey'],
+                identity: ['quién eres', 'tu nombre', 'llamas', 'presentate', 'quien es ali', 'ali', 'bot', 'asistente'],
+                skills: ['habilidad', 'competencia', 'tecnología', 'dominar', 'saber', 'stack', 'java', 'python', 'react', 'node', 'sql', 'programacion', 'codigo', 'datos', 'ia', 'inteligencia artificial', 'big data', 'bi'],
+                education: ['educación', 'estudio', 'máster', 'licenciatura', 'título', 'universidad', 'escuela', 'grado', 'carrera'],
+                projects: ['proyecto', 'realizado', 'portafolio', 'creación', 'app', 'sitio', 'web', 'energyai', 'iot', 'smart city', '3d', 'mall', 'bancario', 'transporte'],
+                experience: ['experiencia', 'trabajo', 'clínica', 'empresa', 'pasantía', 'profesional', 'puesto'],
+                certifications: ['certificación', 'certificado'],
+                cv: ['cv', 'curriculum', 'hoja de vida', 'resume'],
+                contact: ['contacto', 'email', 'correo', 'llamar', 'teléfono', 'numero'],
+                languages: ['idioma', 'lengua', 'habla', 'entiende', 'español', 'ingles', 'frances', 'arabe'],
+                hobbies: ['hobby', 'hobbies', 'pasión', 'ocio', 'deporte', 'dibujo', 'lectura', 'voleibol']
+            },
+            ar: {
+                greeting: ['مرحبا', 'هلا', 'سلام', 'اهلا', 'صباح الخير', 'مساء الخير', 'هااي', 'السلام عليكم', 'تحياتي'],
+                identity: ['من انت', 'اسمك', 'عرف بنفسك', 'شكون', 'مين', 'شنو سميتك', 'انت مين', 'شكون نتا', 'عرفني', 'علي', 'بوت', 'مساعد'],
+                skills: ['مهار', 'تقني', 'يتقن', 'خبر', 'لغات', 'ستاك', 'برمج', 'يعرف', 'شاطر', 'تكنولوجي', 'java', 'python', 'react', 'كود', 'بيانات', 'ذكاء', 'اصطناعي', 'بيغ داتا', 'big data', 'bi'],
+                education: ['تعل', 'دراس', 'ماستر', 'إجاز', 'دبلوم', 'شهادة', 'جامع', 'قراي', 'مدرسة', 'تكوين', 'جامعة'],
+                projects: ['مشروع', 'مشاريع', 'أعمال', 'انجاز', 'خدمة', 'تطبيق', 'موقع', 'بروجي', 'energyai', 'iot', 'انترنت الاشياء', '3d', 'بصري', 'بنك', 'نقل'],
+                experience: ['خبر', 'عمل', 'تجرب', 'عيادة', 'تدريب', 'عاشت', 'خدم', 'شركة', 'stage'],
+                certifications: ['شهاد', 'دورة', 'سيرتف'],
+                cv: ['سيرة', 'ذاتية', 'cv'],
+                contact: ['اتصل', 'تواصل', 'ايميل', 'بريد', 'هاتف', 'رقم', 'فين', 'عنوان'],
+                languages: ['لغة', 'لغات', 'تكلم', 'يتحدث', 'عربي', 'فرنسي', 'انجليزي'],
+                hobbies: ['هواية', 'هوايات', 'شغف', 'رياضة', 'رسم', 'قراءة', 'فولي']
+            }
+        };
+
+        const keys = keywords[lang] || keywords['fr'];
+        const has = (wordList) => wordList.some(k => low.includes(k));
+
+        // PRIORITY CHECK: Specific topics first, then generic identity
+        if (has(keys.greeting)) {
+            reply = t.chat_greeting;
+        } else if (has(keys.skills)) {
+            reply = t.chat_skills;
+        } else if (has(keys.education)) {
+            reply = t.chat_education;
+        } else if (has(keys.projects)) {
+            reply = t.chat_projects;
+        } else if (has(keys.experience)) {
+            reply = t.chat_experience;
+        } else if (has(keys.certifications)) {
+            reply = t.chat_certifications;
+        } else if (has(keys.cv)) {
+            reply = t.chat_cv;
+        } else if (has(keys.contact)) {
+            reply = t.chat_contact_response;
+        } else if (has(keys.languages)) {
+            reply = t.chat_languages;
+        } else if (has(keys.hobbies)) {
+            reply = t.chat_hobbies;
+        } else if (has(keys.identity)) {
+            // "Ali" matches here as a fallback if no specific topic was found
+            reply = t.chat_identity;
+        }
+
+        addMsg(reply, 'ai');
     }
 }
 
@@ -491,13 +584,38 @@ function initRadarChart() {
     ctx.scale(dpr, dpr);
 
     const centerX = 200, centerY = 200, maxRadius = 150;
-    const labels = ['Data Science', 'Web Dev', 'Databases', 'BI', 'Big Data', 'Programming'];
+
+    // Dynamic Labels
+    const getLabels = () => {
+        const lang = localStorage.getItem('language') || 'fr';
+        const t = (window.translations && window.translations[lang]) ? window.translations[lang] : null;
+        if (t && t.radar_data_science) {
+            return [
+                t.radar_data_science,
+                t.radar_web_dev,
+                t.radar_databases,
+                t.radar_bi,
+                t.radar_big_data,
+                t.radar_programming
+            ];
+        }
+        return ['Data Science', 'Web Dev', 'Databases', 'BI', 'Big Data', 'Programming'];
+    };
+
+    let labels = getLabels();
     const values = [90, 88, 85, 78, 72, 83];
     const numAxes = labels.length;
     const angleStep = (2 * Math.PI) / numAxes;
 
     let animProgress = 0;
     let hasStarted = false;
+
+    // Expose update function for language switcher
+    window.updateRadarChart = () => {
+        labels = getLabels();
+        // Redraw with full progress if already animated, or just update labels
+        if (hasStarted) drawChart(animProgress > 0 ? animProgress : 1);
+    };
 
     function drawChart(progress) {
         ctx.clearRect(0, 0, 400, 400);
@@ -691,3 +809,104 @@ function showToast(message, type = 'success', duration = 5000) {
         setTimeout(() => toast.remove(), 300);
     }, duration);
 }
+
+// ============================================
+// 16. LANGUAGE SWITCHER (i18n)
+// ============================================
+function initLanguageSwitcher() {
+    const langBtn = document.querySelector('.lang-btn');
+    const langDropdown = document.querySelector('.lang-dropdown');
+    const langLinks = document.querySelectorAll('[data-lang]');
+
+    if (!langBtn || !langDropdown) {
+        console.error("Language switcher elements not found:", { langBtn, langDropdown });
+        return;
+    }
+
+    // 1. Toggle Dropdown is handled by inline HTML onclick for robustness
+    /*
+    if (langBtn) {
+        langBtn.addEventListener('click', (e) => {
+            console.log("Language button clicked");
+            e.stopPropagation();
+            langDropdown.classList.toggle('active');
+            console.log("Dropdown active:", langDropdown.classList.contains('active'));
+        });
+    }
+    */
+
+    // 2. Close when clicking outside
+    document.addEventListener('click', () => {
+        if (langDropdown && langDropdown.classList.contains('active')) {
+            langDropdown.classList.remove('active');
+        }
+    });
+
+    // 3. Handle Language Selection
+    langLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            console.log("Language link clicked:", link.getAttribute('data-lang'));
+            e.preventDefault();
+            const lang = link.getAttribute('data-lang');
+            updateLanguage(lang);
+            if (langDropdown) langDropdown.classList.remove('active');
+        });
+    });
+
+    // 4. Load saved language or default to browser/FR
+    const savedLang = localStorage.getItem('language');
+    const browserLang = navigator.language.split('-')[0];
+    const defaultLang = savedLang || (['fr', 'en', 'es', 'ar'].includes(browserLang) ? browserLang : 'fr');
+
+    updateLanguage(defaultLang);
+}
+
+function updateLanguage(lang) {
+    console.log("Updating language to:", lang);
+    // 1. Update State
+    localStorage.setItem('language', lang);
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+
+    // 2. Update Toggle Button Text
+    const currentLangSpan = document.querySelector('.current-lang');
+    if (currentLangSpan) currentLangSpan.textContent = lang.toUpperCase();
+
+    // 3. Update Text Content using translations.js
+    const t = window.translations || (typeof translations !== 'undefined' ? translations : null);
+
+    if (!t) {
+        console.error("Translations object not found!");
+        return;
+    }
+
+    const langData = t[lang];
+    if (!langData) {
+        console.error(`Translations for language '${lang}' not found.`);
+        return;
+    }
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (langData[key]) {
+            el.innerHTML = langData[key];
+        }
+    });
+
+    // 3b. Update Placeholders
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (langData[key]) {
+            el.placeholder = langData[key];
+        }
+    });
+
+    // 4. Update Chatbot Helper if needed
+    // (Optional: trigger chatbot greeting update)
+
+    // 5. Update Radar Chart
+    if (window.updateRadarChart) {
+        window.updateRadarChart();
+    }
+}
+

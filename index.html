@@ -59,23 +59,38 @@
             <nav class="glass">
                 <div class="logo">
                     <i class="fas fa-code"></i>
-                    Echlouchi
+                    Ech.Ali
                 </div>
                 <div class="nav-links">
-                    <a href="#home" class="active">Accueil</a>
-                    <a href="#about">À propos</a>
-                    <a href="#projects">Projets</a>
-                    <a href="#experience">Expérience</a>
-                    <a href="#certifications">Certifications</a>
-                    <a href="#skills">Compétences</a>
-                    <a href="#education">Formation</a>
-                    <a href="#contact">Contact</a>
+                    <a href="#home" class="active" data-i18n="nav_home">Accueil</a>
+                    <a href="#about" data-i18n="nav_about">À propos</a>
+                    <a href="#projects" data-i18n="nav_projects">Projets</a>
+                    <a href="#experience" data-i18n="nav_experience">Expérience</a>
+                    <a href="#certifications" data-i18n="nav_certifications">Certifications</a>
+                    <a href="#skills" data-i18n="nav_skills">Compétences</a>
+                    <a href="#education" data-i18n="nav_education">Formation</a>
+                    <a href="#contact" data-i18n="nav_contact">Contact</a>
                 </div>
                 <div class="nav-controls">
-                    <button class="theme-toggle" aria-label="Toggle theme">
+                    <!-- Language Switcher -->
+                    <div class="language-switcher">
+                        <button class="lang-btn" aria-label="Switch Language"
+                            onclick="this.nextElementSibling.classList.toggle('active'); event.stopPropagation();">
+                            <i class="fas fa-globe"></i>
+                            <span class="current-lang">FR</span>
+                        </button>
+                        <div class="lang-dropdown">
+                            <a href="#" data-lang="fr">🇫🇷 Français</a>
+                            <a href="#" data-lang="en">🇬🇧 English</a>
+                            <a href="#" data-lang="es">🇪🇸 Español</a>
+                            <a href="#" data-lang="ar">🇲🇦 العربية</a>
+                        </div>
+                    </div>
+
+                    <button class="theme-toggle" aria-label="Toggle theme" onclick="window.toggleTheme()">
                         <i class="fas fa-sun"></i>
                     </button>
-                    <div class="mobile-menu">
+                    <div class="mobile-menu" onclick="window.toggleMobileMenu()">
                         <i class="fas fa-bars"></i>
                     </div>
                 </div>
@@ -92,21 +107,23 @@
                 <div class="hero-content fade-in">
                     <div class="availability-badge">
                         <span class="pulse-dot"></span>
-                        Disponible pour un stage / emploi
+                        <span data-i18n="hero_badge">Disponible pour un stage / emploi</span>
                     </div>
-                    <h1>Ali Echlouchi</h1>
-                    <h2><span class="typing">Étudiant en Master Data Science</span></h2>
-                    <p>Passionné par l'ingénierie des systèmes d'information et l'intelligence artificielle. Je crée des
+                    <h1 data-i18n="hero_title">Ali Echlouchi</h1>
+                    <h2><span data-i18n="hero_prefix">Étudiant en </span><span class="typing">Master Data
+                            Science</span></h2>
+                    <p data-i18n="hero_desc">Passionné par l'ingénierie des systèmes d'information et l'intelligence
+                        artificielle. Je crée des
                         solutions innovantes qui combinent développement web, analyse de données et IA.</p>
 
 
 
                     <div class="btn-group">
                         <a href="#projects" class="btn primary-btn">
-                            <i class="fas fa-rocket"></i> Voir mes projets
+                            <i class="fas fa-rocket"></i> <span data-i18n="btn_projects">Voir mes projets</span>
                         </a>
                         <a href="#contact" class="btn secondary-btn">
-                            <i class="fas fa-paper-plane"></i> Me contacter
+                            <i class="fas fa-paper-plane"></i> <span data-i18n="btn_contact">Me contacter</span>
                         </a>
                     </div>
                 </div>
@@ -130,21 +147,22 @@
         <section id="about" class="about-section">
             <div class="container">
                 <div class="section-title">
-                    <h2><i class="fas fa-user-astronaut" style="color: var(--primary);"></i> À Propos</h2>
-                    <p>Innovateur numérique & Passionné de Data</p>
+                    <h2><i class="fas fa-user-astronaut" style="color: var(--primary);"></i> <span
+                            data-i18n="about_title">À Propos</span></h2>
+                    <p data-i18n="about_subtitle">Innovateur numérique & Passionné de Data</p>
                 </div>
 
                 <div class="about-grid">
                     <!-- Left: Text Content -->
                     <div class="about-content fade-in">
-                        <h3><span class="highlight-text">Ali Echlouchi</span> — Futur Ingénieur & Développeur Full Stack
-                        </h3>
-                        <p class="about-text">
+                        <h3><span class="highlight-text">Ali Echlouchi</span> — <span data-i18n="about_subtitle">Futur
+                                Ingénieur & Développeur Full Stack</span></h3>
+                        <p class="about-text" data-i18n="about_text_1">
                             Actuellement en <strong>Master IS2IA</strong> (Ingénierie des Systèmes d'Information et
                             Intelligence Artificielle) à Fès, je combine une solide expertise technique avec une vision
                             créative.
                         </p>
-                        <p class="about-text">
+                        <p class="about-text" data-i18n="about_text_2">
                             Mon objectif est de fusionner <strong>l'intelligence artificielle</strong> et le
                             <strong>développement web moderne</strong> pour créer des expériences utilisateurs uniques
                             et performantes. Curieux et rigoureux, je transforme des problèmes complexes en solutions
@@ -153,7 +171,7 @@
 
                         <div class="about-buttons">
                             <a href="cv/CV_Echlouchi_Ali.pdf" class="btn primary-btn" download>
-                                <i class="fas fa-download"></i> Télécharger CV
+                                <i class="fas fa-download"></i> <span data-i18n="btn_download_cv">Télécharger CV</span>
                             </a>
 
                         </div>
@@ -166,8 +184,8 @@
                                 <i class="fas fa-code"></i>
                             </div>
                             <div class="focus-info">
-                                <h4>Développement</h4>
-                                <p>Web & Mobile Full Stack</p>
+                                <h4 data-i18n="focus_dev_title">Développement</h4>
+                                <p data-i18n="focus_dev_desc">Web & Mobile Full Stack</p>
                             </div>
                         </div>
                         <div class="focus-card">
@@ -175,8 +193,8 @@
                                 <i class="fas fa-brain"></i>
                             </div>
                             <div class="focus-info">
-                                <h4>Intelligence Artificielle</h4>
-                                <p>Machine Learning & Data</p>
+                                <h4 data-i18n="focus_ai_title">Intelligence Artificielle</h4>
+                                <p data-i18n="focus_ai_desc">Machine Learning & Data</p>
                             </div>
                         </div>
                         <div class="focus-card">
@@ -184,8 +202,8 @@
                                 <i class="fas fa-lightbulb"></i>
                             </div>
                             <div class="focus-info">
-                                <h4>Innovation</h4>
-                                <p>Solutions Créatives</p>
+                                <h4 data-i18n="focus_inno_title">Innovation</h4>
+                                <p data-i18n="focus_inno_desc">Solutions Créatives</p>
                             </div>
                         </div>
                     </div>
@@ -194,20 +212,20 @@
                 <!-- Stats Bar -->
                 <div class="status-bar fade-in">
                     <div class="status-item">
-                        <span class="status-count" data-target="4">0</span>
-                        <span class="status-label">Projets Académiques</span>
+                        <span class="status-count" data-target="6">0</span>
+                        <span class="status-label" data-i18n="stats_projects_acad">Projets Académiques</span>
                     </div>
                     <div class="status-item">
                         <span class="status-count" data-target="1">0</span>
-                        <span class="status-label">Projets Professionnels</span>
+                        <span class="status-label" data-i18n="stats_projects_pro">Projets Professionnels</span>
                     </div>
                     <div class="status-item">
                         <span class="status-count" data-target="6">0</span>
-                        <span class="status-label">Certifications</span>
+                        <span class="status-label" data-i18n="stats_certifs">Certifications</span>
                     </div>
                     <div class="status-item">
                         <span class="status-count" data-target="3">0</span>
-                        <span class="status-label">Langues Parlées</span>
+                        <span class="status-label" data-i18n="stats_languages">Langues Parlées</span>
                     </div>
                 </div>
             </div>
@@ -217,8 +235,9 @@
         <section id="projects" style="background: rgba(0, 0, 0, 0.2);">
             <div class="container">
                 <div class="section-title">
-                    <h2><i class="fas fa-rocket" style="color: var(--primary);"></i> Projets Académiques</h2>
-                    <p>Mes réalisations les plus significatives</p>
+                    <h2><i class="fas fa-rocket" style="color: var(--primary);"></i> <span
+                            data-i18n="projects_title">Projets Académiques</span></h2>
+                    <p data-i18n="projects_subtitle">Mes réalisations les plus significatives</p>
                 </div>
 
                 <div class="projects-grid">
@@ -229,18 +248,23 @@
                                 <i class="fas fa-robot"></i>
                             </div>
                             <div class="project-meta">
-                                <span class="project-category">IA & Full-Stack</span>
+                                <span class="project-category" data-i18n="project_1_cat">IA & Full-Stack</span>
                                 <span class="project-date"><i class="far fa-calendar-alt"></i> 2024 — 2025</span>
                             </div>
                         </div>
-                        <h3 class="project-title">Plateforme d'apprentissage avec Chatbot Éducatif</h3>
-                        <span class="project-type">Projet de Fin d'Année</span>
-                        <p class="project-desc">Plateforme interactive intégrant un chatbot éducatif capable d'assister
+                        <h3 class="project-title" data-i18n="project_1_title">Plateforme d'apprentissage avec Chatbot
+                            Éducatif</h3>
+                        <span class="project-type" data-i18n="project_1_type">Projet de Fin d'Année</span>
+                        <p class="project-desc" data-i18n="project_1_desc">Plateforme interactive intégrant un chatbot
+                            éducatif capable d'assister
                             les apprenants en temps réel avec parcours personnalisé et analyse des interactions.</p>
                         <div class="project-highlights">
-                            <span><i class="fas fa-check-circle"></i> Chatbot IA temps réel</span>
-                            <span><i class="fas fa-check-circle"></i> Parcours personnalisé</span>
-                            <span><i class="fas fa-check-circle"></i> Analyse des interactions</span>
+                            <span><i class="fas fa-check-circle"></i> <span data-i18n="project_1_feature_1">Chatbot IA
+                                    temps réel</span></span>
+                            <span><i class="fas fa-check-circle"></i> <span data-i18n="project_1_feature_2">Parcours
+                                    personnalisé</span></span>
+                            <span><i class="fas fa-check-circle"></i> <span data-i18n="project_1_feature_3">Analyse des
+                                    interactions</span></span>
                         </div>
                         <div class="tech-tags">
                             <span class="tag">MERN Stack</span>
@@ -258,18 +282,23 @@
                                 <i class="fas fa-chart-bar"></i>
                             </div>
                             <div class="project-meta">
-                                <span class="project-category">Data Science</span>
+                                <span class="project-category" data-i18n="project_2_cat">Data Science</span>
                                 <span class="project-date"><i class="far fa-calendar-alt"></i> 2024 — 2025</span>
                             </div>
                         </div>
-                        <h3 class="project-title">Étude de Satisfaction des Services de Transport</h3>
-                        <span class="project-type">Projet Académique</span>
-                        <p class="project-desc">Analyse des facteurs influençant la satisfaction des usagers via Analyse
+                        <h3 class="project-title" data-i18n="project_2_title">Étude de Satisfaction des Services de
+                            Transport</h3>
+                        <span class="project-type" data-i18n="project_2_type">Projet Académique</span>
+                        <p class="project-desc" data-i18n="project_2_desc">Analyse des facteurs influençant la
+                            satisfaction des usagers via Analyse
                             des Correspondances Multiples (ACM) et visualisation des données.</p>
                         <div class="project-highlights">
-                            <span><i class="fas fa-check-circle"></i> Analyse ACM</span>
-                            <span><i class="fas fa-check-circle"></i> Visualisation de données</span>
-                            <span><i class="fas fa-check-circle"></i> Collecte via Google Forms</span>
+                            <span><i class="fas fa-check-circle"></i> <span data-i18n="project_2_feature_1">Analyse
+                                    ACM</span></span>
+                            <span><i class="fas fa-check-circle"></i> <span
+                                    data-i18n="project_2_feature_2">Visualisation de données</span></span>
+                            <span><i class="fas fa-check-circle"></i> <span data-i18n="project_2_feature_3">Collecte via
+                                    Google Forms</span></span>
                         </div>
                         <div class="tech-tags">
                             <span class="tag">Python</span>
@@ -287,18 +316,22 @@
                                 <i class="fas fa-shield-alt"></i>
                             </div>
                             <div class="project-meta">
-                                <span class="project-category">Sécurité & Web</span>
+                                <span class="project-category" data-i18n="project_3_cat">Sécurité & Web</span>
                                 <span class="project-date"><i class="far fa-calendar-alt"></i> 2024 — 2025</span>
                             </div>
                         </div>
-                        <h3 class="project-title">Système Bancaire Sécurisé</h3>
-                        <span class="project-type">Projet Académique</span>
-                        <p class="project-desc">Portail bancaire avec authentification 2FA, contrôle d'accès RBAC et
+                        <h3 class="project-title" data-i18n="project_3_title">Système Bancaire Sécurisé</h3>
+                        <span class="project-type" data-i18n="project_3_type">Projet Académique</span>
+                        <p class="project-desc" data-i18n="project_3_desc">Portail bancaire avec authentification 2FA,
+                            contrôle d'accès RBAC et
                             protection contre les injections SQL. Tests de charge pour 99.9% disponibilité.</p>
                         <div class="project-highlights">
-                            <span><i class="fas fa-check-circle"></i> Authentification 2FA</span>
-                            <span><i class="fas fa-check-circle"></i> Contrôle RBAC</span>
-                            <span><i class="fas fa-check-circle"></i> 99.9% disponibilité</span>
+                            <span><i class="fas fa-check-circle"></i> <span
+                                    data-i18n="project_3_feature_1">Authentification 2FA</span></span>
+                            <span><i class="fas fa-check-circle"></i> <span data-i18n="project_3_feature_2">Contrôle
+                                    RBAC</span></span>
+                            <span><i class="fas fa-check-circle"></i> <span data-i18n="project_3_feature_3">99.9%
+                                    disponibilité</span></span>
                         </div>
                         <div class="tech-tags">
                             <span class="tag">Flask</span>
@@ -316,18 +349,22 @@
                                 <i class="fas fa-cube"></i>
                             </div>
                             <div class="project-meta">
-                                <span class="project-category">3D & WebGL</span>
+                                <span class="project-category" data-i18n="project_4_cat">3D & WebGL</span>
                                 <span class="project-date"><i class="far fa-calendar-alt"></i> 2024 — 2025</span>
                             </div>
                         </div>
-                        <h3 class="project-title">Virtual Mall 3D</h3>
-                        <span class="project-type">Projet Académique</span>
-                        <p class="project-desc">Centre commercial virtuel en 3D avec navigation immersive. Exploration
+                        <h3 class="project-title" data-i18n="project_4_title">Virtual Mall 3D</h3>
+                        <span class="project-type" data-i18n="project_4_type">Projet Académique</span>
+                        <p class="project-desc" data-i18n="project_4_desc">Centre commercial virtuel en 3D avec
+                            navigation immersive. Exploration
                             interactive des boutiques dans un environnement réaliste.</p>
                         <div class="project-highlights">
-                            <span><i class="fas fa-check-circle"></i> Navigation 3D immersive</span>
-                            <span><i class="fas fa-check-circle"></i> Modélisation Blender</span>
-                            <span><i class="fas fa-check-circle"></i> Rendu WebGL temps réel</span>
+                            <span><i class="fas fa-check-circle"></i> <span data-i18n="project_4_feature_1">Navigation
+                                    3D immersive</span></span>
+                            <span><i class="fas fa-check-circle"></i> <span data-i18n="project_4_feature_2">Modélisation
+                                    Blender</span></span>
+                            <span><i class="fas fa-check-circle"></i> <span data-i18n="project_4_feature_3">Rendu WebGL
+                                    temps réel</span></span>
                         </div>
                         <div class="tech-tags">
                             <span class="tag">Three.js</span>
@@ -335,6 +372,73 @@
                             <span class="tag">Blender</span>
                             <span class="tag">WebGL</span>
                             <span class="tag">HTML/CSS</span>
+                        </div>
+                    </div>
+
+                    <!-- Projet 5 -->
+                    <div class="project-card fade-in" data-color="#3b82f6">
+                        <div class="project-header">
+                            <div class="project-icon" style="background: linear-gradient(135deg, #3b82f6, #ec4899);">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div class="project-meta">
+                                <span class="project-category" data-i18n="project_5_cat">IA & SaaS</span>
+                                <span class="project-date"><i class="far fa-calendar-alt"></i> 2024 — 2025</span>
+                            </div>
+                        </div>
+                        <h3 class="project-title" data-i18n="project_5_title">Assistant Intelligent de Gestion de
+                            Demandes (EnergyAI)</h3>
+                        <span class="project-type" data-i18n="project_5_type">Projet Académique</span>
+                        <p class="project-desc" data-i18n="project_5_desc">Solution SaaS pour fournisseurs d'énergie
+                            automatisant le traitement des demandes clients via une IA hybride (NLP + RF) pour réduire
+                            le temps de traitement.</p>
+                        <div class="project-highlights">
+                            <span><i class="fas fa-check-circle"></i> <span data-i18n="project_5_feature_1">IA Hybride
+                                    (CamemBERT + RF)</span></span>
+                            <span><i class="fas fa-check-circle"></i> <span data-i18n="project_5_feature_2">Traitement
+                                    &lt; 50ms</span></span>
+                            <span><i class="fas fa-check-circle"></i> <span data-i18n="project_5_feature_3">Génération
+                                    PDF & Signature</span></span>
+                        </div>
+                        <div class="tech-tags">
+                            <span class="tag">React 19</span>
+                            <span class="tag">FastAPI</span>
+                            <span class="tag">Python</span>
+                            <span class="tag">PostgreSQL</span>
+                            <span class="tag">CamemBERT</span>
+                        </div>
+                    </div>
+
+                    <!-- Projet 6 -->
+                    <div class="project-card fade-in" data-color="#06b6d4">
+                        <div class="project-header">
+                            <div class="project-icon" style="background: linear-gradient(135deg, #06b6d4, #3b82f6);">
+                                <i class="fas fa-city"></i>
+                            </div>
+                            <div class="project-meta">
+                                <span class="project-category" data-i18n="project_6_cat">IoT & Microservices</span>
+                                <span class="project-date"><i class="far fa-calendar-alt"></i> 2024 — 2025</span>
+                            </div>
+                        </div>
+                        <h3 class="project-title" data-i18n="project_6_title">Plateforme IoT Smart City</h3>
+                        <span class="project-type" data-i18n="project_6_type">Projet Académique</span>
+                        <p class="project-desc" data-i18n="project_6_desc">Plateforme de surveillance en temps réel pour
+                            villes intelligentes. Architecture microservices évolutive avec gestion de périphériques et
+                            télémétrie MQTT.</p>
+                        <div class="project-highlights">
+                            <span><i class="fas fa-check-circle"></i> <span data-i18n="project_6_feature_1">Dashboard
+                                    React Temps Réel</span></span>
+                            <span><i class="fas fa-check-circle"></i> <span data-i18n="project_6_feature_2">Télémétrie
+                                    MQTT/RabbitMQ</span></span>
+                            <span><i class="fas fa-check-circle"></i> <span data-i18n="project_6_feature_3">Architecture
+                                    Microservices</span></span>
+                        </div>
+                        <div class="tech-tags">
+                            <span class="tag">React</span>
+                            <span class="tag">Docker</span>
+                            <span class="tag">FastAPI</span>
+                            <span class="tag">MQTT</span>
+                            <span class="tag">Microservices</span>
                         </div>
                     </div>
                 </div>
@@ -345,8 +449,9 @@
         <section id="experience">
             <div class="container">
                 <div class="section-title">
-                    <h2><i class="fas fa-briefcase" style="color: var(--primary);"></i> Expérience Professionnelle</h2>
-                    <p>Mon parcours en entreprise</p>
+                    <h2><i class="fas fa-briefcase" style="color: var(--primary);"></i> <span
+                            data-i18n="exp_title">Expérience Professionnelle</span></h2>
+                    <p data-i18n="exp_subtitle">Mon parcours en entreprise</p>
                 </div>
 
                 <div class="experience-card fade-in">
@@ -359,22 +464,25 @@
                                 <i class="fas fa-user-md"></i>
                             </div>
                             <div class="exp-header-info">
-                                <h3>Développeur Full Stack & IA</h3>
-                                <span class="exp-company">Projet Clinique Intelligente</span>
+                                <h3 data-i18n="exp_role">Développeur Full Stack & IA</h3>
+                                <span class="exp-company" data-i18n="exp_company">Projet Clinique Intelligente</span>
                                 <div class="exp-meta">
-                                    <span><i class="far fa-calendar-alt"></i> 2024 — 2025</span>
-                                    <span><i class="fas fa-map-marker-alt"></i> Fès, Maroc</span>
+                                    <span><i class="far fa-calendar-alt"></i> <span data-i18n="exp_date">Mai 2025 —
+                                            Juillet 2025</span></span>
+                                    <span data-i18n="contact_loc_val"><i class="fas fa-map-marker-alt"></i> Fès,
+                                        Maroc</span>
                                 </div>
                             </div>
-                            <span class="exp-badge">Projet Professionnel</span>
+                            <span class="exp-badge" data-i18n="exp_badge">Projet Professionnel</span>
                         </div>
 
                         <!-- Mission -->
                         <div class="exp-mission">
                             <div class="exp-mission-icon"><i class="fas fa-robot"></i></div>
                             <div>
-                                <h4>Mission</h4>
-                                <p>Développement d'une plateforme clinique intelligente intégrant un chatbot médical
+                                <h4 data-i18n="exp_mission_title">Mission</h4>
+                                <p data-i18n="exp_mission_desc">Développement d'une plateforme clinique intelligente
+                                    intégrant un chatbot médical
                                     basé
                                     sur l'IA pour l'analyse des symptômes et l'orientation des patients.</p>
                             </div>
@@ -382,28 +490,33 @@
 
                         <!-- Achievements -->
                         <div class="exp-achievements">
-                            <h4><i class="fas fa-trophy" style="color: #f59e0b;"></i> Principales réalisations</h4>
+                            <h4><i class="fas fa-trophy" style="color: #f59e0b;"></i> <span
+                                    data-i18n="exp_achievements_title">Principales réalisations</span></h4>
                             <div class="exp-achievements-grid">
                                 <div class="exp-achievement">
                                     <i class="fas fa-check-circle"></i>
-                                    <span>Chatbot IA avec <strong>OpenRouter</strong> pour l'analyse des
+                                    <span data-i18n="exp_achieve_1">Chatbot IA avec <strong>OpenRouter</strong> pour
+                                        l'analyse des
                                         symptômes</span>
                                 </div>
                                 <div class="exp-achievement">
                                     <i class="fas fa-check-circle"></i>
-                                    <span>Gestion centralisée des patients et ordonnances numériques (PDF + QR
+                                    <span data-i18n="exp_achieve_2">Gestion centralisée des patients et ordonnances
+                                        numériques (PDF + QR
                                         Code)</span>
                                 </div>
                                 <div class="exp-achievement">
                                     <i class="fas fa-check-circle"></i>
-                                    <span>Messagerie sécurisée en temps réel pour patients et médecins</span>
+                                    <span data-i18n="exp_achieve_3">Messagerie sécurisée en temps réel pour patients et
+                                        médecins</span>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Tech Stack -->
                         <div class="exp-tech">
-                            <h4><i class="fas fa-layer-group" style="color: var(--primary);"></i> Technologies utilisées
+                            <h4><i class="fas fa-layer-group" style="color: var(--primary);"></i> <span
+                                    data-i18n="exp_tech_title">Technologies utilisées</span>
                             </h4>
                             <div class="tech-tags" style="margin-top: 12px;">
                                 <span class="tag">Next.js</span>
@@ -424,8 +537,8 @@
         <section id="certifications" style="background: rgba(0, 0, 0, 0.2);">
             <div class="container">
                 <div class="section-title">
-                    <h2>Certifications</h2>
-                    <p>Mes certifications professionnelles</p>
+                    <h2 data-i18n="cert_title">Certifications</h2>
+                    <p data-i18n="cert_subtitle">Mes certifications professionnelles</p>
                 </div>
 
                 <div class="certification-grid">
@@ -508,7 +621,7 @@
                             <h4>Computer Vision with Azure</h4>
                             <p>Microsoft</p>
                             <a href="./certif/Coursera 5JSCO8KR0XC3 (1).pdf" class="download-link" target="_blank">
-                                <i class="fas fa-eye"></i> Voir le Certificat
+                                <i class="fas fa-eye"></i> <span data-i18n="cert_view">Voir le Certificat</span>
                             </a>
                         </div>
                     </div>
@@ -517,7 +630,7 @@
                 <div style="text-align: center; margin-top: 40px;">
                     <p style="color: var(--text-secondary); font-size: 0.9rem; opacity: 0.8;">
                         <i class="fas fa-check-circle" style="color: var(--secondary); margin-right: 5px;"></i>
-                        Certifications authentifiées et vérifiables
+                        <span data-i18n="cert_auth_footer">Certifications authentifiées et vérifiables</span>
                     </p>
                 </div>
             </div>
@@ -527,18 +640,21 @@
         <section id="skills">
             <div class="container">
                 <div class="section-title">
-                    <h2><i class="fas fa-brain" style="color: var(--primary);"></i> Compétences Technologiques</h2>
-                    <p>Analyse intelligente de mon profil technique</p>
+                    <h2><i class="fas fa-brain" style="color: var(--primary);"></i> <span
+                            data-i18n="skills_title">Compétences Technologiques</span></h2>
+                    <p data-i18n="skills_subtitle">Analyse intelligente de mon profil technique</p>
                 </div>
 
                 <!-- AI Radar + Skill Bars -->
                 <div class="ai-skills-container fade-in">
                     <div class="radar-section">
-                        <h3 class="ai-subtitle"><span class="ai-dot"></span> Radar de Compétences</h3>
+                        <h3 class="ai-subtitle"><span class="ai-dot"></span> <span data-i18n="skills_radar_title">Radar
+                                de Compétences</span></h3>
                         <canvas id="skillsRadar" width="400" height="400"></canvas>
                     </div>
                     <div class="skills-detail-section">
-                        <h3 class="ai-subtitle"><span class="ai-dot"></span> Analyse Détaillée</h3>
+                        <h3 class="ai-subtitle"><span class="ai-dot"></span> <span
+                                data-i18n="skills_detail_title">Analyse Détaillée</span></h3>
                         <div class="ai-skill-bars">
                             <div class="ai-skill-row">
                                 <div class="ai-skill-info"><i class="fab fa-python"></i><span>Data Science & IA</span>
@@ -593,7 +709,7 @@
                 <!-- Neural Network Tech Nodes -->
                 <div class="neural-grid fade-in">
                     <h3 class="ai-subtitle" style="text-align:center; margin-bottom: 30px;">
-                        <span class="ai-dot"></span> Écosystème Technologique
+                        <span class="ai-dot"></span> <span data-i18n="skills_eco_title">Écosystème Technologique</span>
                     </h3>
                     <div class="tech-nodes">
                         <div class="tech-node" data-cat="data"><i class="fab fa-python"></i><span>Python</span></div>
@@ -624,8 +740,8 @@
                     <!-- Languages -->
                     <div class="skills-col">
                         <div class="section-title-left">
-                            <h3><i class="fas fa-globe-americas" style="color: var(--primary);"></i> Compétences
-                                Linguistiques</h3>
+                            <h3><i class="fas fa-globe-americas" style="color: var(--primary);"></i> <span
+                                    data-i18n="lang_title">Compétences Linguistiques</span></h3>
                         </div>
                         <div class="languages-premium fade-in">
                             <!-- Arabe -->
@@ -637,8 +753,8 @@
                                     </div>
                                 </div>
                                 <div class="lang-info">
-                                    <h4>Arabe</h4>
-                                    <span class="lang-level">Langue Maternelle</span>
+                                    <h4 data-i18n="lang_ar">Arabe</h4>
+                                    <span class="lang-level" data-i18n="lang_ar_level">Langue Maternelle</span>
                                     <div class="lang-stars">
                                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i
                                             class="fas fa-star"></i><i class="fas fa-star"></i><i
@@ -656,8 +772,8 @@
                                     </div>
                                 </div>
                                 <div class="lang-info">
-                                    <h4>Français</h4>
-                                    <span class="lang-level">Avancé (TCF B2)</span>
+                                    <h4 data-i18n="lang_fr">Français</h4>
+                                    <span class="lang-level" data-i18n="lang_fr_level">Avancé (TCF B2)</span>
                                     <div class="lang-stars">
                                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i
                                             class="fas fa-star"></i><i class="fas fa-star"></i><i
@@ -675,8 +791,8 @@
                                     </div>
                                 </div>
                                 <div class="lang-info">
-                                    <h4>Anglais</h4>
-                                    <span class="lang-level">Intermédiaire (B1/B2)</span>
+                                    <h4 data-i18n="lang_en">Anglais</h4>
+                                    <span class="lang-level" data-i18n="lang_en_level">Intermédiaire (B1/B2)</span>
                                     <div class="lang-stars">
                                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i
                                             class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i
@@ -690,7 +806,8 @@
                     <!-- Other Skills -->
                     <div class="skills-col">
                         <div class="section-title-left">
-                            <h3><i class="fas fa-cubes" style="color: var(--secondary);"></i> Méthodes & Soft Skills
+                            <h3><i class="fas fa-cubes" style="color: var(--secondary);"></i> <span
+                                    data-i18n="soft_title">Méthodes & Soft Skills</span>
                             </h3>
                         </div>
                         <div class="other-skills-grid fade-in">
@@ -700,8 +817,8 @@
                                     <i class="fas fa-tasks"></i>
                                 </div>
                                 <div class="os-content">
-                                    <h4>Méthodologies</h4>
-                                    <p>Agile Scrum, UML, Merise, DevOps, CI/CD</p>
+                                    <h4 data-i18n="soft_method_title">Méthodologies</h4>
+                                    <p data-i18n="soft_method_desc">Agile Scrum, UML, Merise, DevOps, CI/CD</p>
                                 </div>
                             </div>
 
@@ -711,8 +828,9 @@
                                     <i class="fas fa-users"></i>
                                 </div>
                                 <div class="os-content">
-                                    <h4>Soft Skills</h4>
-                                    <p>Travail d'équipe, Résolution de problèmes, Communication, Autonomie</p>
+                                    <h4 data-i18n="soft_skills_title">Soft Skills</h4>
+                                    <p data-i18n="soft_skills_desc">Travail d'équipe, Résolution de problèmes,
+                                        Communication, Autonomie</p>
                                 </div>
                             </div>
 
@@ -722,8 +840,8 @@
                                     <i class="fas fa-tools"></i>
                                 </div>
                                 <div class="os-content">
-                                    <h4>Outils</h4>
-                                    <p>Git, GitHub, Docker, VS Code, Linux, LaTeX</p>
+                                    <h4 data-i18n="soft_tools_title">Outils</h4>
+                                    <p data-i18n="soft_tools_desc">Git, GitHub, Docker, VS Code, Linux, LaTeX</p>
                                 </div>
                             </div>
                         </div>
@@ -736,8 +854,9 @@
         <section id="education" style="background: rgba(0, 0, 0, 0.2);">
             <div class="container">
                 <div class="section-title">
-                    <h2><i class="fas fa-route" style="color: var(--primary);"></i> Formation</h2>
-                    <p>Mon parcours académique</p>
+                    <h2><i class="fas fa-route" style="color: var(--primary);"></i> <span
+                            data-i18n="edu_title">Formation</span></h2>
+                    <p data-i18n="edu_subtitle">Mon parcours académique</p>
                 </div>
 
                 <div class="timeline">
@@ -748,16 +867,18 @@
                         </div>
                         <div class="timeline-content">
                             <span class="timeline-date">2025 — 2026</span>
-                            <h3>Master IS2IA</h3>
-                            <h4>École Supérieure d'Ingénierie en Sciences Appliquées, Fès</h4>
-                            <p>Ingénierie des Systèmes d'Information et Intelligence Artificielle</p>
+                            <h3 data-i18n="edu_master_title">Master IS2IA</h3>
+                            <h4 data-i18n="edu_master_school">École Supérieure d'Ingénierie en Sciences Appliquées, Fès
+                            </h4>
+                            <p data-i18n="edu_master_desc">Ingénierie des Systèmes d'Information et Intelligence
+                                Artificielle</p>
                             <div class="timeline-tags">
                                 <span class="tag">Machine Learning</span>
                                 <span class="tag">Deep Learning</span>
                                 <span class="tag">Big Data</span>
                                 <span class="tag">NLP</span>
                             </div>
-                            <span class="timeline-badge current">En cours</span>
+                            <span class="timeline-badge current" data-i18n="edu_status_current">En cours</span>
                         </div>
                     </div>
 
@@ -768,9 +889,10 @@
                         </div>
                         <div class="timeline-content">
                             <span class="timeline-date">2022 — 2025</span>
-                            <h3>Licence en Ingénierie Logicielle</h3>
-                            <h4>École Supérieure d'Ingénierie en Sciences Appliquées, Fès</h4>
-                            <p>Bac+3 en Ingénierie Logicielle </p>
+                            <h3 data-i18n="edu_licence_title">Licence en Ingénierie Logicielle</h3>
+                            <h4 data-i18n="edu_licence_school">École Supérieure d'Ingénierie en Sciences Appliquées, Fès
+                            </h4>
+                            <p data-i18n="edu_licence_desc">Bac+3 en Ingénierie Logicielle </p>
                             <div class="timeline-tags">
                                 <span class="tag">Java</span>
                                 <span class="tag">Python</span>
@@ -778,7 +900,7 @@
                                 <span class="tag">SQL</span>
                                 <span class="tag">UML</span>
                             </div>
-                            <span class="timeline-badge completed">Diplômé</span>
+                            <span class="timeline-badge completed" data-i18n="edu_status_graduated">Diplômé</span>
                         </div>
                     </div>
 
@@ -789,15 +911,15 @@
                         </div>
                         <div class="timeline-content">
                             <span class="timeline-date">2021 — 2022</span>
-                            <h3>Baccalauréat Sciences PC</h3>
-                            <h4>La Résidence 2, Fès</h4>
-                            <p>Section Française — Sciences Physiques et Chimiques</p>
+                            <h3 data-i18n="edu_bac_title">Baccalauréat Sciences PC</h3>
+                            <h4 data-i18n="edu_bac_school">La Résidence 2, Fès</h4>
+                            <p data-i18n="edu_bac_desc">Section Française — Sciences Physiques et Chimiques</p>
                             <div class="timeline-tags">
                                 <span class="tag">Physique</span>
                                 <span class="tag">Chimie</span>
                                 <span class="tag">Mathématiques</span>
                             </div>
-                            <span class="timeline-badge completed">Diplômé</span>
+                            <span class="timeline-badge completed" data-i18n="edu_status_graduated">Diplômé</span>
                         </div>
                     </div>
                 </div>
@@ -808,15 +930,17 @@
         <section id="contact" class="contact-section">
             <div class="container">
                 <div class="section-title">
-                    <h2><i class="fas fa-paper-plane" style="color: var(--primary);"></i> Contact</h2>
-                    <p>Une idée ? Un projet ? Discutons-en !</p>
+                    <h2><i class="fas fa-paper-plane" style="color: var(--primary);"></i> <span
+                            data-i18n="contact_title">Contact</span></h2>
+                    <p data-i18n="contact_subtitle">Une idée ? Un projet ? Discutons-en !</p>
                 </div>
 
                 <div class="contact-wrapper">
                     <!-- Contact Info Card -->
                     <div class="contact-card info-card fade-in">
-                        <h3>Coordonnées</h3>
-                        <p class="contact-subtitle">N'hésitez pas à me contacter pour toute opportunité ou
+                        <h3 data-i18n="contact_info_title">Coordonnées</h3>
+                        <p class="contact-subtitle" data-i18n="contact_info_desc">N'hésitez pas à me contacter pour
+                            toute opportunité ou
                             collaboration.</p>
 
                         <div class="contact-details">
@@ -825,7 +949,7 @@
                                     <i class="fas fa-envelope"></i>
                                 </div>
                                 <div class="detail-content">
-                                    <span>Email</span>
+                                    <span data-i18n="contact_email">Email</span>
                                     <a href="mailto:chlouchiali3@gmail.com">chlouchiali3@gmail.com</a>
                                 </div>
                             </div>
@@ -835,7 +959,7 @@
                                     <i class="fas fa-phone-alt"></i>
                                 </div>
                                 <div class="detail-content">
-                                    <span>Téléphone</span>
+                                    <span data-i18n="contact_phone">Téléphone</span>
                                     <a href="tel:+212644114528">+212 6 44 11 45 28</a>
                                 </div>
                             </div>
@@ -845,14 +969,14 @@
                                     <i class="fas fa-map-marker-alt"></i>
                                 </div>
                                 <div class="detail-content">
-                                    <span>Localisation</span>
-                                    <p>Fès, Maroc</p>
+                                    <span data-i18n="contact_loc">Localisation</span>
+                                    <p data-i18n="contact_loc_val_City">Fès, Maroc</p>
                                 </div>
                             </div>
                         </div>
 
                         <div class="social-connect">
-                            <h4>Réseaux Sociaux</h4>
+                            <h4 data-i18n="contact_social">Réseaux Sociaux</h4>
                             <div class="social-icons-row">
                                 <a href="https://linkedin.com/in/echlouchi-ali/" target="_blank"
                                     class="social-btn linkedin"><i class="fab fa-linkedin-in"></i></a>
@@ -867,20 +991,27 @@
                     <div class="contact-card form-card fade-in">
                         <form id="contactForm" class="modern-form">
                             <div class="form-group">
-                                <label for="name"><i class="fas fa-user"></i> Nom complet</label>
-                                <input type="text" id="name" name="name" placeholder="Votre nom" required>
+                                <label for="name"><i class="fas fa-user"></i> <span data-i18n="form_name">Nom
+                                        complet</span></label>
+                                <input type="text" id="name" name="name" data-i18n-placeholder="placeholder_name"
+                                    placeholder="Votre nom" required>
                             </div>
                             <div class="form-group">
                                 <label for="email"><i class="fas fa-at"></i> Email</label>
-                                <input type="email" id="email" name="email" placeholder="votre@email.com" required>
+                                <input type="email" id="email" name="email" data-i18n-placeholder="placeholder_email"
+                                    placeholder="votre@email.com" required>
                             </div>
                             <div class="form-group">
-                                <label for="subject"><i class="fas fa-tag"></i> Sujet</label>
-                                <input type="text" id="subject" name="subject" placeholder="Objet du message" required>
+                                <label for="subject"><i class="fas fa-tag"></i> <span
+                                        data-i18n="form_subject">Sujet</span></label>
+                                <input type="text" id="subject" name="subject"
+                                    data-i18n-placeholder="placeholder_subject" placeholder="Objet du message" required>
                             </div>
                             <div class="form-group">
-                                <label for="message"><i class="fas fa-comment-alt"></i> Message</label>
-                                <textarea id="message" name="message" rows="5" placeholder="Votre message..."
+                                <label for="message"><i class="fas fa-comment-alt"></i> <span
+                                        data-i18n="form_msg">Message</span></label>
+                                <textarea id="message" name="message" rows="5"
+                                    data-i18n-placeholder="placeholder_message" placeholder="Votre message..."
                                     required></textarea>
                             </div>
                             <button type="submit" class="btn submit-btn">
@@ -898,7 +1029,7 @@
     <!-- Footer -->
     <footer>
         <p class="copyright">
-            Made with ❤️ by Ali Echlouchi © <span id="currentYear">2025</span>
+            <span data-i18n="footer_rights">Made with ❤️ by Ali Echlouchi ©</span> <span id="currentYear">2025</span>
         </p>
     </footer>
 
@@ -915,6 +1046,7 @@
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
     <!-- Custom JavaScript -->
+    <script src="translations.js"></script>
     <script src="script.js"></script>
 
     <!-- AI Chatbot Logic and Widget Area moved to bottom -->
@@ -929,9 +1061,9 @@
                 <div class="chat-header-info">
                     <i class="fas fa-robot"></i>
                     <div>
-                        <span>Assistant Ali</span>
+                        <span data-i18n="bot_name">Assistant Ali</span>
                         <div style="font-size: 0.7rem; color: #10b981; display: flex; align-items: center; gap: 4px;">
-                            <span class="status-dot"></span> En ligne
+                            <span class="status-dot"></span> <span data-i18n="bot_status">En ligne</span>
                         </div>
                     </div>
                 </div>
@@ -943,23 +1075,31 @@
 
             <div id="ai_messages" class="chat-messages">
                 <div class="message ai-message">
-                    <div class="message-content">Bonjour ! Je suis l'assistant d'Ali. Je peux vous renseigner sur son
+                    <div class="message-content" data-i18n="ai_greeting">Bonjour ! Je suis l'assistant d'Ali. Je peux
+                        vous renseigner sur son
                         parcours, ses projets ou ses compétences. Que souhaitez-vous savoir ?</div>
                 </div>
                 <div class="chat-suggestions">
-                    <button class="suggestion-btn" onclick="window.handleAiSuggestion('Compétences')">🚀
-                        Compétences</button>
-                    <button class="suggestion-btn" onclick="window.handleAiSuggestion('Projets')">📂 Projets</button>
-                    <button class="suggestion-btn" onclick="window.handleAiSuggestion('Formation')">🎓
-                        Formation</button>
-                    <button class="suggestion-btn" onclick="window.handleAiSuggestion('CV')">📄 Mon CV</button>
-                    <button class="suggestion-btn" onclick="window.handleAiSuggestion('LinkedIn')">🔗 LinkedIn</button>
-                    <button class="suggestion-btn" onclick="window.handleAiSuggestion('Github')">💻 Github</button>
-                    <button class="suggestion-btn" onclick="window.handleAiSuggestion('Contact')">📧 Contact</button>
-                    <button class="suggestion-btn" onclick="window.handleAiSuggestion('Localisation')">📍
-                        Localisation</button>
-                    <button class="suggestion-btn" onclick="window.handleAiSuggestion('Langues')">🗣️ Langues</button>
-                    <button class="suggestion-btn" onclick="window.handleAiSuggestion('Loisirs')">🏐 Loisirs</button>
+                    <button class="suggestion-btn" onclick="window.handleAiSuggestion(this.innerText)"><span
+                            data-i18n="chat_btn_skills">🚀 Compétences</span></button>
+                    <button class="suggestion-btn" onclick="window.handleAiSuggestion(this.innerText)"><span
+                            data-i18n="chat_btn_projects">📂 Projets</span></button>
+                    <button class="suggestion-btn" onclick="window.handleAiSuggestion(this.innerText)"><span
+                            data-i18n="chat_btn_education">🎓 Formation</span></button>
+                    <button class="suggestion-btn" onclick="window.handleAiSuggestion(this.innerText)"><span
+                            data-i18n="chat_btn_cv">📄 Mon CV</span></button>
+                    <button class="suggestion-btn" onclick="window.handleAiSuggestion(this.innerText)"><span
+                            data-i18n="chat_btn_linkedin">🔗 LinkedIn</span></button>
+                    <button class="suggestion-btn" onclick="window.handleAiSuggestion(this.innerText)"><span
+                            data-i18n="chat_btn_github">💻 Github</span></button>
+                    <button class="suggestion-btn" onclick="window.handleAiSuggestion(this.innerText)"><span
+                            data-i18n="chat_btn_contact">📧 Contact</span></button>
+                    <button class="suggestion-btn" onclick="window.handleAiSuggestion(this.innerText)"><span
+                            data-i18n="chat_btn_location">📍 Localisation</span></button>
+                    <button class="suggestion-btn" onclick="window.handleAiSuggestion(this.innerText)"><span
+                            data-i18n="chat_btn_languages">🗣️ Langues</span></button>
+                    <button class="suggestion-btn" onclick="window.handleAiSuggestion(this.innerText)"><span
+                            data-i18n="chat_btn_hobbies">🏐 Loisirs</span></button>
                 </div>
                 <div id="ai_typing" class="typing-indicator" style="display:none">
                     <span></span><span></span><span></span>
@@ -967,7 +1107,8 @@
             </div>
 
             <div class="chat-input-area">
-                <input type="text" id="ai_input" placeholder="Posez une question..." autocomplete="off">
+                <input type="text" id="ai_input" data-i18n-placeholder="placeholder_chat"
+                    placeholder="Posez une question..." autocomplete="off">
                 <button id="ai_send"><i class="fas fa-paper-plane"></i></button>
             </div>
         </div>
@@ -977,6 +1118,14 @@
     <script>
 
     </script>
+    <!-- External Scripts -->
+    <!-- Particles.js (Load first if used) -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+    <!-- Main Scripts -->
+    <script src="translations.js"></script>
+    <script src="script.js"></script>
+
     <!-- Toast Container -->
     <div class="toast-container" id="toast-container"></div>
 </body>
