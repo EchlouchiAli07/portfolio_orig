@@ -4288,9 +4288,6 @@ footer::before {
 }
 
 /* Contact */
-[dir="rtl"] .contact-detail-item {
-    /* flex-direction: row; */
-}
 
 [dir="rtl"] .icon-box {
     margin-right: 0;
