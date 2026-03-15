@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { name: 'ThemeToggle', fn: initThemeToggle },
         { name: 'MobileMenu', fn: initMobileMenu },
         { name: 'ScrollEffects', fn: initScrollEffects },
-        { name: 'TypingEffect', fn: initTypingEffect },
+        // { name: 'TypingEffect', fn: initTypingEffect },
         { name: 'ContactForm', fn: initContactForm },
         { name: 'ScrollToTop', fn: initScrollToTop },
         { name: 'IntersectionObserver', fn: initIntersectionObserver },

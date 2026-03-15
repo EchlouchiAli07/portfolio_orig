@@ -56,48 +56,28 @@
     <!-- Particles Background -->
     <div id="particles-js"></div>
 
-    <!-- Header & Navigation -->
-    <header>
+    <header class="floating-controls">
         <div class="container">
-            <nav class="glass">
-                <div class="logo">
-                    <i class="fas fa-code"></i>
-                    Ech.Ali
-                </div>
-                <div class="nav-links">
-                    <a href="#home" class="active" data-i18n="nav_home">Accueil</a>
-                    <a href="#about" data-i18n="nav_about">À propos</a>
-                    <a href="#projects" data-i18n="nav_projects">Projets</a>
-                    <a href="#experience" data-i18n="nav_experience">Expérience</a>
-                    <a href="#certifications" data-i18n="nav_certifications">Certifications</a>
-                    <a href="#skills" data-i18n="nav_skills">Compétences</a>
-                    <a href="#education" data-i18n="nav_education">Formation</a>
-                    <a href="#contact" data-i18n="nav_contact">Contact</a>
-                </div>
-                <div class="nav-controls">
-                    <!-- Language Switcher -->
-                    <div class="language-switcher">
-                        <button class="lang-btn" aria-label="Switch Language"
-                            onclick="this.nextElementSibling.classList.toggle('active'); event.stopPropagation();">
-                            <i class="fas fa-globe"></i>
-                            <span class="current-lang">FR</span>
-                        </button>
-                        <div class="lang-dropdown">
-                            <a href="#" data-lang="fr">🇫🇷 Français</a>
-                            <a href="#" data-lang="en">🇬🇧 English</a>
-                            <a href="#" data-lang="es">🇪🇸 Español</a>
-                            <a href="#" data-lang="ar">🇲🇦 العربية</a>
-                        </div>
-                    </div>
-
-                    <button class="theme-toggle" aria-label="Toggle theme" onclick="window.toggleTheme()">
-                        <i class="fas fa-sun"></i>
+            <div class="controls-wrapper">
+                <!-- Language Switcher -->
+                <div class="language-switcher">
+                    <button class="lang-btn" aria-label="Switch Language"
+                        onclick="this.nextElementSibling.classList.toggle('active'); event.stopPropagation();">
+                        <i class="fas fa-globe"></i>
+                        <span class="current-lang">FR</span>
                     </button>
-                    <div class="mobile-menu" onclick="window.toggleMobileMenu()">
-                        <i class="fas fa-bars"></i>
+                    <div class="lang-dropdown">
+                        <a href="#" data-lang="fr">🇫🇷 Français</a>
+                        <a href="#" data-lang="en">🇬🇧 English</a>
+                        <a href="#" data-lang="es">🇪🇸 Español</a>
+                        <a href="#" data-lang="ar">🇲🇦 العربية</a>
                     </div>
                 </div>
-            </nav>
+
+                <button class="theme-toggle" aria-label="Toggle theme" onclick="window.toggleTheme()">
+                    <i class="fas fa-sun"></i>
+                </button>
+            </div>
         </div>
     </header>
 
@@ -113,8 +93,7 @@
                         <span data-i18n="hero_badge">Disponible pour un stage / emploi</span>
                     </div>
                     <h1 data-i18n="hero_title">Ali Echlouchi</h1>
-                    <h2><span data-i18n="hero_prefix">Étudiant en </span><span class="typing">Master Data
-                            Science</span></h2>
+                    <h2><span data-i18n="hero_prefix">Étudiant en </span><span data-i18n="hero_subtitle_suffix">Développement Full-Stack</span></h2>
                     <p data-i18n="hero_desc">Passionné par l'ingénierie des systèmes d'information et l'intelligence
                         artificielle. Je crée des
                         solutions innovantes qui combinent développement web, analyse de données et IA.</p>
